@@ -134,11 +134,6 @@ export const handleProduct = async (productId: string, customerEmail: string) =>
     console.error('Error updating users.db:', error);
     throw error;
   }
-
-  // const tgLink = await createInviteLink( "-1003807984282",customerEmail);
-  // const personalizedBody = body.replace('[TG_LINK]', tgLink);
-  //
-  // await sendEmail('Svethappy <svethappy3@gmail.com>', customerEmail, 'Reels Интенсив"', personalizedBody);
 };
 
   const bodyWithPassword = `

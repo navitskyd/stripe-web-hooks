@@ -3,5 +3,7 @@ commands.sh
 .env
 .idea
 dist/
+key.json
+serviceAccountKey.json
 serviceAccountKey.json
 /travel-smart/serviceAccountKey.json
