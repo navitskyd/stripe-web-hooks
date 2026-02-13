@@ -1,0 +1,18 @@
+{
+  "name": "travel-smart",
+  "version": "1.0.0",
+  "description": "Travel Smart module",
+  "main": "index.js",
+  "scripts": {
+    "sync-db": "node scripts/sync-db-to-firebase.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.0.0",
+    "uuid": "^9.0.0",
+    "dotenv": "^16.0.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
