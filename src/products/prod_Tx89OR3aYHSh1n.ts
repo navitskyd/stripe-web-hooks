@@ -101,8 +101,10 @@ export const handleProduct = async (productId: string, customerEmail: string) =>
       console.log('User exists');
       body = bodyNoPassword.replace('[EMAIL]', customerEmail);
     }
-    await sendEmail('Школа «Путешествуй сам» <svethappy3@gmail.com>', customerEmail,
-        'Вебинар "Секреты и Лайфхаки: самостоятельные путешествия без переплат"', body);
+    await sendEmail('Школа «Путешествуй сам» <svethappy3@gmail.com>',
+        customerEmail,
+        'Вебинар "Секреты и Лайфхаки: самостоятельные путешествия без переплат"',
+        body);
     
   } catch (error) {
     console.error('Error updating user in Firebase:', error);
