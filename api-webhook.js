@@ -40,7 +40,7 @@ async function processPayment(paymentIntent) {
     // Attempt to load and invoke product-specific handler
     if (productId) {
       try {
-        const handlerPath = path.join(__dirname, 'dist', 'src', 'products', `${productId}.js`);
+        const handlerPath = path.join(__dirname, 'dist', 'products', `${productId}.js`);
         if (fs.existsSync(handlerPath)) {
           const handler = require(handlerPath);
           if (handler.handleProduct && typeof handler.handleProduct === 'function') {
