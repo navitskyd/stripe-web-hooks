@@ -243,14 +243,71 @@ async function syncDBToFirebase() {
       console.log(JSON.stringify(orderedLessonsByTopic, null, 2));
       console.log('\n✓ Parsing complete');
 
-      // Save to Firebase
-      console.log('Uploading lessons to Firebase Realtime Database under travel-lessons...');
-      await db.ref('travel-lessons').set(orderedLessonsByTopic);
-      console.log('✓ Successfully synced lessons to Firebase');
 
-      console.log('Uploading users to Firebase Realtime Database under travel-users...');
-      await db.ref('travel-users').set(users);
-      console.log('✓ Successfully synced users to Firebase');
+      // Save to Firebase (update only, keep history)
+      console.log('Uploading lessons to Firebase Realtime Database under travel-lessons (update only, keep history)...');
+      for (const topic of Object.keys(orderedLessonsByTopic)) {
+        const lessons = orderedLessonsByTopic[topic].lessons || {};
+        for (const videoId of Object.keys(lessons)) {
+          const lessonRef = db.ref(`travel-lessons/${topic}/lessons/${videoId}`);
+          const newLesson = lessons[videoId];
+          // Fetch current node
+          const snap = await lessonRef.once('value');
+          const current = snap.val();
+          let history = Array.isArray(current?.history) ? current.history : [];
+          let shouldSaveHistory = false;
+          if (current) {
+            // Remove history from current before comparing
+            const { history: _, ...rest } = current;
+            // Compare newLesson and rest (ignoring history)
+            const keys = new Set([...Object.keys(rest), ...Object.keys(newLesson)]);
+            for (const k of keys) {
+              if (rest[k] !== newLesson[k]) {
+                shouldSaveHistory = true;
+                break;
+              }
+            }
+            if (shouldSaveHistory) {
+              history.unshift(rest);
+              if (history.length > 5) history = history.slice(0, 5);
+            }
+          }
+          await lessonRef.update({ ...newLesson, history });
+        }
+        // Also update topic title if changed
+        const topicTitleRef = db.ref(`travel-lessons/${topic}/title`);
+        await topicTitleRef.set(orderedLessonsByTopic[topic].title);
+      }
+      console.log('✓ Successfully updated lessons in Firebase');
+
+      console.log('Uploading users to Firebase Realtime Database under travel-users (update only, keep history)...');
+      for (const encodedEmail of Object.keys(users)) {
+        const userRef = db.ref(`travel-users/${encodedEmail}`);
+        const newUser = users[encodedEmail];
+        // Fetch current node
+        const snap = await userRef.once('value');
+        const current = snap.val();
+        let history = Array.isArray(current?.history) ? current.history : [];
+        let shouldSaveHistory = false;
+        if (current) {
+          // Remove history from current before comparing
+          const { history: _, ...rest } = current;
+          // Compare newUser and rest (ignoring history)
+          const keys = new Set([...Object.keys(rest), ...Object.keys(newUser)]);
+          for (const k of keys) {
+            if (rest[k] !== newUser[k]) {
+              shouldSaveHistory = true;
+              break;
+            }
+          }
+          if (shouldSaveHistory) {
+            history.unshift(rest);
+            if (history.length > 5) history = history.slice(0, 5);
+          }
+        }
+        await userRef.update({ ...newUser, history });
+      }
+      console.log('✓ Successfully updated users in Firebase');
 
     } catch (error) {
       console.error(`✗ Error parsing:`, error.message);

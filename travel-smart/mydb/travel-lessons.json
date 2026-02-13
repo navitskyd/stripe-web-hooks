@@ -1,0 +1,528 @@
+{
+  "AE": {
+    "lessons": {
+      "940446805": {
+        "streams": "stream2,stream5",
+        "tags": "AE",
+        "title": "Детали об ОАЭ",
+        "topic": "AE"
+      },
+      "940766447": {
+        "streams": "stream2,stream5",
+        "tags": "AE",
+        "title": "Дубай апрель 2023",
+        "topic": "AE"
+      },
+      "1035110794": {
+        "streams": "stream2,stream5",
+        "tags": "AE",
+        "title": "Абудаби май 2024",
+        "topic": "AE"
+      }
+    },
+    "title": "Объединенные Арабские Эмираты"
+  },
+  "Accommodation": {
+    "lessons": {
+      "940800458": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "booking com регистрация",
+        "topic": "Accommodation"
+      },
+      "940801078": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "booking com интерфейс",
+        "topic": "Accommodation"
+      },
+      "940801920": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "booking com бронирование",
+        "topic": "Accommodation"
+      },
+      "940802603": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "agoda интерфейс",
+        "topic": "Accommodation"
+      },
+      "940803285": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "Заказ на официальном сайте",
+        "topic": "Accommodation"
+      },
+      "940804048": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "Заказ апартаментов на Airnbnb",
+        "topic": "Accommodation"
+      }
+    },
+    "title": "Жилье"
+  },
+  "Addons": {
+    "lessons": {
+      "940645797": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "Урок по PayPal",
+        "topic": "Addons"
+      },
+      "940673611": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "Обновление на март 2023",
+        "topic": "Addons"
+      },
+      "9Lv6QXfg4qs": {
+        "streams": "webinar",
+        "tags": "webinar",
+        "title": "Вебинар путешествия",
+        "topic": "Addons"
+      }
+    },
+    "title": "Изменения и дополнения"
+  },
+  "AirTickets": {
+    "lessons": {
+      "940747758": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "поиск билетов",
+        "topic": "AirTickets"
+      },
+      "940748464": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "комфорт при перелете",
+        "topic": "AirTickets"
+      },
+      "940749046": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "выбор агента или авиакомпании",
+        "topic": "AirTickets"
+      },
+      "940749876": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "покупка билетов у турагента RU",
+        "topic": "AirTickets"
+      },
+      "940752857": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "покупка билетов аэрофлот",
+        "topic": "AirTickets"
+      },
+      "940780273": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "выбор мест доп услуги багаж",
+        "topic": "AirTickets"
+      },
+      "940780548": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "покупка билетов у турагента EN",
+        "topic": "AirTickets"
+      },
+      "940780780": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "покупка билетов белавиа",
+        "topic": "AirTickets"
+      },
+      "940781047": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "покупка билетов ryanair EN",
+        "topic": "AirTickets"
+      },
+      "940781296": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "покупка билетов ryanair 2 EN",
+        "topic": "AirTickets"
+      }
+    },
+    "title": "Авиабилеты"
+  },
+  "AirportAndLuggage": {
+    "lessons": {
+      "940807725": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "Аэропорт и багаж",
+        "topic": "AirportAndLuggage"
+      },
+      "940808503": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "Аэропорт и переводчик ч.1",
+        "topic": "AirportAndLuggage"
+      },
+      "940809407": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "Аэропорт и переводчик ч.2",
+        "topic": "AirportAndLuggage"
+      }
+    },
+    "title": "Аэропорт и багаж"
+  },
+  "Cashback": {
+    "lessons": {
+      "940774209": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "кэшбэк букинг",
+        "topic": "Cashback"
+      },
+      "940774451": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "кэшбэк билеты",
+        "topic": "Cashback"
+      },
+      "940774733": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "кэшбэк вывод",
+        "topic": "Cashback"
+      }
+    },
+    "title": "Кэшбэк"
+  },
+  "ES": {
+    "lessons": {
+      "940448074": {
+        "streams": "stream2,stream5",
+        "tags": "ES",
+        "title": "2021 Испания",
+        "topic": "ES"
+      }
+    },
+    "title": "Испания"
+  },
+  "GE": {
+    "lessons": {
+      "940448911": {
+        "streams": "stream2,stream5",
+        "tags": "GE",
+        "title": "Детали о Грузии",
+        "topic": "GE"
+      },
+      "940449923": {
+        "streams": "stream2,stream5",
+        "tags": "GE",
+        "title": "Грузия 2022-23 ч.1",
+        "topic": "GE"
+      },
+      "940450835": {
+        "streams": "stream2,stream5",
+        "tags": "GE",
+        "title": "Грузия 2022-23 ч.2",
+        "topic": "GE"
+      },
+      "1036581410": {
+        "streams": "stream2,stream5",
+        "tags": "GE",
+        "title": "Грузия 2024",
+        "topic": "GE"
+      }
+    },
+    "title": "Грузия"
+  },
+  "LK": {
+    "lessons": {
+      "940799712": {
+        "streams": "stream2,stream5",
+        "tags": "LKA",
+        "title": "Шри-Ланка март 2023",
+        "topic": "LK"
+      }
+    },
+    "title": "Шри-Ланка"
+  },
+  "Lifehacks": {
+    "lessons": {
+      "940641795": {
+        "history": [
+          {
+            "streams": "stream2,stream5",
+            "title": "Трюки с билетами",
+            "topic": "Lifehacks"
+          }
+        ],
+        "streams": "stream2,stream5",
+        "title": "Трюки с билетами",
+        "topic": "Lifehacks"
+      },
+      "940642266": {
+        "history": [
+          {
+            "streams": "stream2,stream5",
+            "title": "Трюки с жильем",
+            "topic": "Lifehacks"
+          }
+        ],
+        "streams": "stream2,stream5",
+        "title": "Трюки с жильем",
+        "topic": "Lifehacks"
+      },
+      "940643591": {
+        "history": [
+          {
+            "streams": "stream2,stream5",
+            "title": "Дополнительно",
+            "topic": "Lifehacks"
+          }
+        ],
+        "streams": "stream2,stream5",
+        "title": "Дополнительно",
+        "topic": "Lifehacks"
+      },
+      "1039163106": {
+        "history": [
+          {
+            "streams": "stream2,stream5",
+            "title": "Экскурсии",
+            "topic": "Lifehacks"
+          }
+        ],
+        "streams": "stream2,stream5",
+        "title": "Экскурсии",
+        "topic": "Lifehacks"
+      }
+    },
+    "title": "Лайфхаки и секреты"
+  },
+  "MV": {
+    "lessons": {
+      "940459402": {
+        "streams": "stream2,stream5",
+        "tags": "MY",
+        "title": "Мальдивы 2021",
+        "topic": "MV"
+      },
+      "940462766": {
+        "streams": "stream2,stream5",
+        "tags": "MY",
+        "title": "Мальдивы 2023 1",
+        "topic": "MV"
+      },
+      "940606689": {
+        "streams": "stream2,stream5",
+        "tags": "MY",
+        "title": "Мальдивы 2023 2",
+        "topic": "MV"
+      },
+      "941486186": {
+        "streams": "stream2,stream5",
+        "tags": "MY",
+        "title": "Мальдивы 2024",
+        "topic": "MV"
+      }
+    },
+    "title": "Мальдивские острова"
+  },
+  "MY": {
+    "lessons": {
+      "941523230": {
+        "streams": "stream2,stream5",
+        "tags": "MY",
+        "title": "Малайзия, Куала Лумпур 2023",
+        "topic": "MY"
+      },
+      "941664517": {
+        "streams": "stream2,stream5",
+        "tags": "MY",
+        "title": "Малайзия, о.Лангкави 2024",
+        "topic": "MY"
+      }
+    },
+    "title": "Малайзия"
+  },
+  "Money": {
+    "lessons": {
+      "940622129": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "часть 2",
+        "topic": "Money"
+      },
+      "940622919": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "часть 3",
+        "topic": "Money"
+      },
+      "940641164": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "часть 1",
+        "topic": "Money"
+      }
+    },
+    "title": "Наличные деньги и банковские карты"
+  },
+  "PrepareTravel": {
+    "lessons": {
+      "940783941": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "паспорта, визы, декларации",
+        "topic": "PrepareTravel"
+      },
+      "940804715": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "Имиграционные карты, страховки, анкеты здоровья",
+        "topic": "PrepareTravel"
+      },
+      "940806489": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "ПЦР тест - обновлено ноябрь 2023",
+        "topic": "PrepareTravel"
+      }
+    },
+    "title": "Подготовка к путешествию"
+  },
+  "SG": {
+    "lessons": {
+      "941550878": {
+        "streams": "stream2,stream5",
+        "tags": "SG",
+        "title": "Сингапур 2023",
+        "topic": "SG"
+      }
+    },
+    "title": "Сингапур"
+  },
+  "TH": {
+    "lessons": {
+      "941507390": {
+        "streams": "stream2,stream5",
+        "tags": "TH",
+        "title": "Таиланд 2024",
+        "topic": "TH"
+      }
+    },
+    "title": "Таиланд"
+  },
+  "TR": {
+    "lessons": {
+      "940762624": {
+        "streams": "stream2,stream5",
+        "tags": "TR",
+        "title": "Турция 2023  ч.1",
+        "topic": "TR"
+      },
+      "940764202": {
+        "streams": "stream2,stream5",
+        "tags": "TR",
+        "title": "Турция 2023  ч.2",
+        "topic": "TR"
+      },
+      "940765523": {
+        "streams": "stream2,stream5",
+        "tags": "TR",
+        "title": "Турция 2023  ч.3",
+        "topic": "TR"
+      },
+      "1036098436": {
+        "streams": "stream2,stream5",
+        "tags": "TR",
+        "title": "Каппадокия",
+        "topic": "TR"
+      },
+      "1036102781": {
+        "streams": "stream2,stream5",
+        "tags": "TR",
+        "title": "Дыярбакир Мардин",
+        "topic": "TR"
+      },
+      "1036271778": {
+        "streams": "stream2,stream5",
+        "tags": "TR",
+        "title": "Фетхие Олюдениз",
+        "topic": "TR"
+      }
+    },
+    "title": "Турция"
+  },
+  "TRNC": {
+    "lessons": {
+      "938510128": {
+        "streams": "stream2,stream5",
+        "tags": "TRNC",
+        "title": "Северный Кипр 2023",
+        "topic": "TRNC"
+      },
+      "940770783": {
+        "streams": "stream2,stream5",
+        "tags": "TRNC",
+        "title": "Северный Кипр лето 2023",
+        "topic": "TRNC"
+      },
+      "1035139295": {
+        "streams": "stream2,stream5",
+        "tags": "TRNC",
+        "title": "Северный Кипр июнь 2024",
+        "topic": "TRNC"
+      }
+    },
+    "title": "Северный Кипр"
+  },
+  "Transport": {
+    "lessons": {
+      "940740895": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "трансфер в общем",
+        "topic": "Transport"
+      },
+      "940741610": {
+        "streams": "stream2,stream5",
+        "tags": "ES,GE,novice",
+        "title": "трансфер испания грузия",
+        "topic": "Transport"
+      },
+      "940742225": {
+        "streams": "stream2,stream5",
+        "tags": "MV",
+        "title": "трансфер мальдивы",
+        "topic": "Transport"
+      },
+      "940742805": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "аренда авто",
+        "topic": "Transport"
+      },
+      "940743367": {
+        "streams": "stream2,stream5",
+        "tags": "novice",
+        "title": "бронь авто",
+        "topic": "Transport"
+      }
+    },
+    "title": "Транспорт"
+  },
+  "VN": {
+    "lessons": {
+      "941603925": {
+        "streams": "stream2,stream5",
+        "tags": "VN",
+        "title": "Вьетнам, о.Фукуок 2024",
+        "topic": "VN"
+      }
+    },
+    "title": "Вьетнам"
+  }
+}
