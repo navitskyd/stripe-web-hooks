@@ -6,20 +6,10 @@ const app = express();
 const stripe = Stripe(process.env.STRIPE_SECRET);
 const port = process.env.PORT || 3000;
 
-app.get('/', (req, res) => res.send('Stripe webhook receiver'));
+app.get('/webhook', (req, res) => res.send('Stripe webhook receiver'));
 
 const handleEvent = (event) => {
-  console.log('Received event:', event.type);
-  switch (event.type) {
-    case 'payment_intent.succeeded':
-      console.log('Payment succeeded:', event.data.object.id);
-      break;
-    case 'invoice.payment_failed':
-      console.log('Invoice payment failed:', event.data.object.id);
-      break;
-    default:
-      console.log('Unhandled event type:', event.type);
-  }
+  console.log('Received event:', event);
 };
 
 if (process.env.STRIPE_WEBHOOK_SECRET) {
