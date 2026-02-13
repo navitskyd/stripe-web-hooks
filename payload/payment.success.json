@@ -1,5 +1,4 @@
 {
-  "object": {
     "id": "pi_3SzxbdKkYw7Ewgj41ZHQctkb",
     "object": "payment_intent",
     "amount": 1499,
@@ -55,6 +54,4 @@
     "status": "succeeded",
     "transfer_data": null,
     "transfer_group": null
-  },
-  "previous_attributes": null
-}
+  }

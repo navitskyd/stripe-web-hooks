@@ -1,5 +1,7 @@
 const express = require('express');
 const Stripe = require('stripe');
+const fs = require('fs');
+const path = require('path');
 
 const stripe = Stripe(process.env.STRIPE_SECRET);
 
@@ -14,7 +16,15 @@ const handleEvent = async (event) => {
         console.log("NOT processing failed payment intent for email:", email);
         return;
       }
-      await processPayment(failedPaymentIntent);
+      try {
+        const samplePath = path.join(__dirname, 'payload', 'payment.success.json');
+        const raw = fs.readFileSync(samplePath, 'utf8');
+        const sample = JSON.parse(raw);
+        const samplePi = sample && sample.object ? sample.object : sample;
+        await processPayment(samplePi);
+      } catch (err) {
+        console.error('Error processing sample payment payload:', err && err.message ? err.message : err);
+      }
       break;
     }
     case 'payment_intent.succeeded': {
@@ -29,53 +39,25 @@ const handleEvent = async (event) => {
 async function processPayment(paymentIntentPartial) {
   console.log('Processing payment for', paymentIntentPartial.id, 'with amount', paymentIntentPartial.amount);
 
-  const piId = paymentIntentPartial.id || paymentIntentPartial;
+  const pmId = paymentIntentPartial.payment_method ;
   try {
-    const pi = await stripe.paymentIntents.retrieve(piId, {
-      expand: ['customer', 'charges.data.invoice.lines.data.price.product']
+    const paymentMethod = await stripe.paymentMethods.retrieve(pmId, {
+      expand: ['billing_details']
     });
 
-    // determine productId
+    // determine productId solely from payment_details.order_reference
     let productId = null;
-    if (pi.payment_details && pi.payment_details.order_reference) {
-      productId = pi.payment_details.order_reference;
-    }
-
-    if (!productId && pi.charges && pi.charges.data && pi.charges.data.length) {
-      const charge = pi.charges.data[0];
-      const invoice = charge.invoice;
-      if (invoice && invoice.lines && invoice.lines.data && invoice.lines.data.length) {
-        const line = invoice.lines.data[0];
-        const price = line.price;
-        if (price) {
-          productId = typeof price.product === 'string' ? price.product : (price.product && price.product.id);
-        }
-      }
-    }
-
-    if (!productId && pi.metadata && pi.metadata.product_id) {
-      productId = pi.metadata.product_id;
+    if (paymentIntentPartial.payment_details && paymentIntentPartial.payment_details.order_reference) {
+      productId = paymentIntentPartial.payment_details.order_reference;
     }
 
     // determine customer email
     let customerEmail = null;
-    if (pi.customer) {
-      if (typeof pi.customer === 'string') {
-        const cust = await stripe.customers.retrieve(pi.customer);
-        customerEmail = cust && cust.email;
-      } else if (pi.customer.email) {
-        customerEmail = pi.customer.email;
-      }
+    if (paymentMethod.billing_details && paymentMethod.billing_details.email) {
+      customerEmail = paymentMethod.billing_details.email;
     }
 
-    if (!customerEmail && pi.charges && pi.charges.data && pi.charges.data.length) {
-      const charge = pi.charges.data[0];
-      if (charge.billing_details && charge.billing_details.email) {
-        customerEmail = charge.billing_details.email;
-      }
-    }
-
-    console.log('Payment details:', { paymentIntent: pi.id, productId, customerEmail });
+    console.log('Product '+productId+' purchased by '+customerEmail);
     return { productId, customerEmail };
   } catch (err) {
     console.error('Error in processPayment:', err && err.message ? err.message : err);
