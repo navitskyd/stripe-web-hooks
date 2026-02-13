@@ -1,35 +1,38 @@
 import { sendEmail } from '../utils/email';
+import {createInviteLink} from "../utils/utils";
+
+// TEST ENV PROD
 
 export const handleProduct = async (productId: string, customerEmail: string) => {
-// UGC Pulse
-  console.log("Клуб создателей контента - доступ 1 месяц для " + customerEmail);
-
-  const ugcPulseChatId = -1002906638589;
-  const ugcPulseId = -1002913124875;
-
+// Photo video svet
+  console.log("Курс по созданию качественного контента и развитию соц сетей для " + customerEmail);
 
   const body = `
 Благодарим за оплату!
-Приглашаем вас в клуб «UGC Pulse»
+Приглашаем вас в проект Photo&Video Svet
 
-Ссылки, контакты и мои личные инструкции уже ждут вас в закрытой Telegram группе.
+Все видеоуроки, комплект из фото и видео пресетов, а также конспекты и гайды, инструкции уже ждут вас в закрытой Telegram группе!
 
-Обязательно сразу подпишитесь и не теряйте этот чат!
+Чтобы получить доступ к приобретенным материалам вам обязательно нужно завершить регистрацию⏬⏬⏬
+
+Для этого перейдите по кнопке ниже и подключите Telegram
+Обязательно сразу подпишитесь и не теряйте этот чат!!!
 По этой ссылке вы можете войти только ОДИН РАЗ.
-Не переживайте, возможно небольшое ожидание, но вас обязательно добавят в течение суток.
 
-Заходите сюда ⬇️ 
+<a href="[TG_LINK]">
+<button style="background-color: #00adef;color: whitesmoke; padding-bottom: 15px;border-radius: 6px;">
+Подключить телеграм
+</button>
+</a>
 
-https://t.me/+8Jz7SAhhFDNiZTFi
-
-Обязательно присоединяйтесь во второй чат - для вопросов и обратной связи от Светланы лично
-
-https://t.me/+SLp3Vox-kMNjZGVi
-
-Все материалы в доступе месяц для изучения в Telegram. 
-И конечно будут дополняться, читайте правила участия!
+Все материалы уже в доступе для изучения в Telegram, ДОСТУП НАВСЕГДА.
 
 По техническим вопросам можно писать на email <a href="mailto:svethappy3@gmail.com">svethappy3@gmail.com</a>
 `
-  await sendEmail('Svethappy <svethappy3@gmail.com>', customerEmail, 'UGC Pulse', body);
+
+  // create personalized TG link
+  const tgLink = await createInviteLink( "-1002667063289",customerEmail);
+  const personalizedBody = body.replace('[TG_LINK]', tgLink);
+
+  await sendEmail('Svethappy <svethappy3@gmail.com>', customerEmail, 'Курс "Video&PhotoSvet"', personalizedBody);
 };
