@@ -10,9 +10,10 @@ const handleEvent = (event) => {
     case 'payment_intent.payment_failed':
       const failedPaymentIntent = event.data.object;
       console.log(`PaymentIntent for ${failedPaymentIntent.amount} failed.`);
+      console.log(event);
       break;
     case 'payment_intent.succeeded':
-      console.log('Payment succeeded:', event.data.object.id);
+      
       break;
     default:
       console.log(`Unhandled event type ${event.type}`);
