@@ -8,18 +8,24 @@ export const sendHtmlEmail = async (
 ): Promise<void> => {
   try {
     const password = process.env.GMAIL_APP_PASSWORD;
+    const user = process.env.GMAIL_USER;
     if (!password) {
       throw new Error('GMAIL_APP_PASSWORD environment variable not set');
     }
 
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
+      port: 587,
+      //secure: true,
       auth: {
-        user: from,
+        user: user,
         pass: password
-      }
+      },
+      debug: false, // show debug output
+  logger: false, // log information in console
+  pool: true,
+  socketTimeout: 3000,
+  from: from
     });
 
     const mailOptions = {
