@@ -9,16 +9,23 @@ const handleEvent = (event) => {
   switch (event.type) {
     case 'payment_intent.payment_failed':
       const failedPaymentIntent = event.data.object;
-      console.log(`PaymentIntent for ${failedPaymentIntent.amount} failed.`);
-      console.log(event);
+      const email = event.data.object.last_payment_error.payment_method.billing_details.email;
+      if (email!=='dnavitski@gmail.com') {
+        return;
+      }
+      processPayment(event.data.object);
       break;
     case 'payment_intent.succeeded':
-      
+      processPayment(event.data.object);
       break;
     default:
       console.log(`Unhandled event type ${event.type}`);
   }
 };
+
+function processPayment(paymentIntent) {
+    console.log('Processing payment for', paymentIntent.id, 'with amount', paymentIntent.amount);
+}
 
 const setupWebhookRoutes = (app) => {
   app.get('/webhook', (req, res) => {
