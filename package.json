@@ -4,9 +4,10 @@
   "description": "Simple Node app to accept Stripe webhooks",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "test:webhook": "node scripts/send_test_webhook.js",
     "build": "tsc",
+    "start": "npm run build && node server.js",
+    "start:prod": "node server.js",
+    "test:webhook": "node scripts/send_test_webhook.js",
     "dev": "ts-node server.ts"
   },
   "dependencies": {

@@ -20,20 +20,23 @@ FROM base AS build
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential node-gyp pkg-config python-is-python3
 
-# Install node modules
+# Install node modules including devDependencies for TypeScript compilation
 COPY package-lock.json package.json ./
-RUN npm ci
+RUN npm ci --include=dev
 
 # Copy application code
 COPY . .
+
+# Compile TypeScript to JavaScript
+RUN npm run build
 
 
 # Final stage for app image
 FROM base
 
-# Copy built application
+# Copy built application and compiled dist folder
 COPY --from=build /app /app
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-CMD [ "npm", "run", "start" ]
+CMD [ "npm", "run", "start:prod" ]

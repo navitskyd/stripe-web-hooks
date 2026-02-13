@@ -1,4 +1,4 @@
 node_modules/
 commands.sh
 .env
-.idea
+.ideadist/
