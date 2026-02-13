@@ -6,27 +6,7 @@ const path = require('path');
 const stripe = Stripe(process.env.STRIPE_SECRET);
 
 const handleEvent = async (event) => {
-  console.log('Received event:', event.type);
-
   switch (event.type) {
-    case 'payment_intent.payment_failed': {
-      const failedPaymentIntent = event.data.object;
-      const email = failedPaymentIntent.last_payment_error && failedPaymentIntent.last_payment_error.payment_method && failedPaymentIntent.last_payment_error.payment_method.billing_details && failedPaymentIntent.last_payment_error.payment_method.billing_details.email;
-      if (email && email !== 'dnavitski@gmail.com') {
-        console.log("NOT processing failed payment intent for email:", email);
-        return;
-      }
-      try {
-        const samplePath = path.join(__dirname, 'payload', 'payment.success.json');
-        const raw = fs.readFileSync(samplePath, 'utf8');
-        const sample = JSON.parse(raw);
-        const samplePi = sample && sample.object ? sample.object : sample;
-        await processPayment(samplePi);
-      } catch (err) {
-        console.error('Error processing sample payment payload:', err && err.message ? err.message : err);
-      }
-      break;
-    }
     case 'payment_intent.succeeded': {
       await processPayment(event.data.object);
       break;
@@ -36,10 +16,10 @@ const handleEvent = async (event) => {
   }
 };
 
-async function processPayment(paymentIntentPartial) {
-  console.log('Processing payment for', paymentIntentPartial.id, 'with amount', paymentIntentPartial.amount);
+async function processPayment(paymentIntent) {
+  console.log('Processing payment ', paymentIntent);
 
-  const pmId = paymentIntentPartial.payment_method ;
+  const pmId = paymentIntent.payment_method ;
   try {
     const paymentMethod = await stripe.paymentMethods.retrieve(pmId, {
       expand: ['billing_details']
@@ -47,8 +27,8 @@ async function processPayment(paymentIntentPartial) {
 
     // determine productId solely from payment_details.order_reference
     let productId = null;
-    if (paymentIntentPartial.payment_details && paymentIntentPartial.payment_details.order_reference) {
-      productId = paymentIntentPartial.payment_details.order_reference;
+    if (paymentIntent.payment_details && paymentIntent.payment_details.order_reference) {
+      productId = paymentIntent.payment_details.order_reference;
     }
 
     // determine customer email
