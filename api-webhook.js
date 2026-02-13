@@ -17,8 +17,6 @@ const handleEvent = async (event) => {
 };
 
 async function processPayment(paymentIntent) {
-  console.log('Processing payment ', paymentIntent);
-
   const pmId = paymentIntent.payment_method ;
   try {
     const paymentMethod = await stripe.paymentMethods.retrieve(pmId, {
@@ -38,6 +36,24 @@ async function processPayment(paymentIntent) {
     }
 
     console.log('Product '+productId+' purchased by '+customerEmail);
+
+    // Attempt to load and invoke product-specific handler
+    if (productId) {
+      try {
+        const handlerPath = path.join(__dirname, 'src', 'products', `${productId}.js`);
+        if (fs.existsSync(handlerPath)) {
+          const handler = require(handlerPath);
+          if (handler.handleProduct && typeof handler.handleProduct === 'function') {
+            await handler.handleProduct(productId, customerEmail);
+          }
+        } else {
+          console.log(`No handler found for product ${productId}`);
+        }
+      } catch (err) {
+        console.error(`Error loading/calling product handler for ${productId}:`, err && err.message ? err.message : err);
+      }
+    }
+
     return { productId, customerEmail };
   } catch (err) {
     console.error('Error in processPayment:', err && err.message ? err.message : err);
