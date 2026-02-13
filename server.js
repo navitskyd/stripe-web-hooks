@@ -9,7 +9,20 @@ const port = process.env.PORT || 3000;
 app.get('/webhook', (req, res) => res.send('Stripe webhook receiver'));
 
 const handleEvent = (event) => {
-  console.log('Received event:', event);
+
+  switch (event.type){
+    case 'payment_intent.failed':
+      console.log('Received event:', event);
+
+      const failedPaymentIntent = event.data.object;
+      console.log(`PaymentIntent for ${failedPaymentIntent.amount} failed.`);
+      break;
+    case 'payment_intent.succeeded':
+
+      break;
+    default:
+      console.log(`Unhandled event type ${event.type}`);
+  }
 };
 
 if (process.env.STRIPE_WEBHOOK_SECRET) {
@@ -25,14 +38,6 @@ if (process.env.STRIPE_WEBHOOK_SECRET) {
       return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
-    handleEvent(event);
-    res.json({ received: true });
-  });
-} else {
-  // Insecure / local mode: parse JSON and skip signature verification
-  app.post('/webhook', express.json(), (req, res) => {
-    console.warn('STRIPE_WEBHOOK_SECRET not set — skipping signature verification');
-    const event = req.body;
     handleEvent(event);
     res.json({ received: true });
   });
