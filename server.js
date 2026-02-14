@@ -13,6 +13,9 @@ app.get('/', (req, res) => {
 
 // Mount route handlers
 setupWebhookRoutes(app);
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 setupPromoRoutes(app);
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
