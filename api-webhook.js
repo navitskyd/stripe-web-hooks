@@ -5,10 +5,11 @@ const path = require('path');
 
 const stripe = Stripe(process.env.STRIPE_SECRET);
 
+
 const handleEvent = async (event) => {
   switch (event.type) {
-    case 'payment_intent.succeeded': {
-      await processPayment(event.data.object);
+    case 'checkout.session.completed': {
+      await processCheckoutSession(event.data.object);
       break;
     }
     default:
@@ -16,28 +17,28 @@ const handleEvent = async (event) => {
   }
 };
 
-async function processPayment(paymentIntent) {
-  const pmId = paymentIntent.payment_method ;
+async function processCheckoutSession(session) {
   try {
-    const paymentMethod = await stripe.paymentMethods.retrieve(pmId, {
-      expand: ['billing_details']
-    });
+    // Получаем email покупателя
+    const customerEmail = session.customer_details?.email || session.customer_email || null;
 
-    // determine productId solely from payment_details.order_reference
+    // Получаем product_id из line_items (нужно запросить через Stripe API)
     let productId = null;
-    if (paymentIntent.payment_details && paymentIntent.payment_details.order_reference) {
-      productId = paymentIntent.payment_details.order_reference;
+    if (session.id) {
+      // Получаем line_items для сессии
+      const lineItems = await stripe.checkout.sessions.listLineItems(session.id, { limit: 1 });
+      if (lineItems.data && lineItems.data.length > 0) {
+        // Обычно product id лежит в price.product
+        const price = lineItems.data[0].price;
+        if (price && price.product) {
+          productId = price.product;
+        }
+      }
     }
 
-    // determine customer email
-    let customerEmail = null;
-    if (paymentMethod.billing_details && paymentMethod.billing_details.email) {
-      customerEmail = paymentMethod.billing_details.email;
-    }
+    console.log('Product ' + productId + ' purchased by ' + customerEmail);
 
-    console.log('Product '+productId+' purchased by '+customerEmail);
-
-    // Attempt to load and invoke product-specific handler
+    // Попытка загрузить и вызвать обработчик продукта
     if (productId) {
       try {
         const handlerPath = path.join(__dirname, 'dist', 'products', `${productId}.js`);
@@ -56,7 +57,7 @@ async function processPayment(paymentIntent) {
 
     return { productId, customerEmail };
   } catch (err) {
-    console.error('Error in processPayment:', err && err.message ? err.message : err);
+    console.error('Error in processCheckoutSession:', err && err.message ? err.message : err);
     throw err;
   }
 }
@@ -67,7 +68,7 @@ const setupWebhookRoutes = (app) => {
   });
 
   if (process.env.STRIPE_WEBHOOK_SECRET) {
-    app.post('/webhook/payment-intent', express.raw({ type: 'application/json' }), async (req, res) => {
+    app.post('/webhook/checkout', express.raw({ type: 'application/json' }), async (req, res) => {
       const sig = req.headers['stripe-signature'];
       const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
