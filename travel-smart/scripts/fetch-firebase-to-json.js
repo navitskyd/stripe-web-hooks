@@ -1,14 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 const admin = require('firebase-admin');
-require('dotenv').config({ path: path.join(__dirname, '../../.env') });
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
 // Initialize Firebase Admin
 let serviceAccount;
 if (process.env.FIREBASE_SERVICE_ACCOUNT) {
   serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 } else {
-  const keyPath = path.join(__dirname, '../../serviceAccountKey.json');
+  const keyPath = path.join(__dirname, '../serviceAccountKey.json');
   if (fs.existsSync(keyPath)) {
     serviceAccount = require(keyPath);
   } else {
