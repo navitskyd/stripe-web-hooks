@@ -67,13 +67,14 @@ const setupTravelRoutes = (app) => {
 
             Object.entries(lessonsData).forEach(([topicTitle, country]) => {
               if (!country.lessons) return;
+              const topicTitleValue = country.title || topicTitle;
               Object.entries(country.lessons).forEach(([videoId, lesson]) => {
                 const lessonStreams = (lesson.streams || '').split(',').map(s => s.trim()).filter(Boolean);
                 const lessonTags = (lesson.tags || '').split(',').map(t => t.trim()).filter(Boolean);
                 const hasStream = userStreams.some(s => lessonStreams.includes(s));
                 const hasTag = userTags.some(t => lessonTags.includes(t));
                 if (hasStream || hasTag) {
-                  matchedLessons.push({...lesson, videoId, topicTitle});
+                  matchedLessons.push({...lesson, videoId, topicTitle: topicTitleValue});
                 }
               });
             });
