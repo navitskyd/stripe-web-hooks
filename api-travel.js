@@ -53,7 +53,31 @@ const setupTravelRoutes = (app) => {
             if (!user) {
               return res.status(404).json({error: 'User not found'});
             }
-            return res.json(user);
+            // Fetch all lessons from Firebase DB (travel-lessons)
+            const lessonsRef = db.ref('travel-lessons');
+            const lessonsSnapshot = await lessonsRef.once('value');
+            const lessonsData = lessonsSnapshot.val() || {};
+
+            // Collect all lessons that match at least one user stream or tag
+            const userStreams = (user.stream || user.streams || '').split(',').map(s => s.trim()).filter(Boolean);
+            const userTags = (user.tag || user.tags || '').split(',').map(t => t.trim()).filter(Boolean);
+            const matchedLessons = [];
+
+            // lessonsData is structured by country/topic, then lessons
+            Object.values(lessonsData).forEach(country => {
+              if (!country.lessons) return;
+              Object.values(country.lessons).forEach(lesson => {
+                const lessonStreams = (lesson.streams || '').split(',').map(s => s.trim()).filter(Boolean);
+                const lessonTags = (lesson.tags || '').split(',').map(t => t.trim()).filter(Boolean);
+                const hasStream = userStreams.some(s => lessonStreams.includes(s));
+                const hasTag = userTags.some(t => lessonTags.includes(t));
+                if (hasStream || hasTag) {
+                  matchedLessons.push(lesson);
+                }
+              });
+            });
+
+            return res.json({user, lessons: matchedLessons});
           } catch (err) {
             return res.status(500).json({error: 'Firebase error', details: err.message});
           }
