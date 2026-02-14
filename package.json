@@ -8,7 +8,8 @@
     "start": "npm run build && node server.js",
     "start:prod": "node server.js",
     "dev": "ts-node server.ts",
-    "test": "jest --detectOpenHandles"
+    "test": "jest --detectOpenHandles",
+    "send-event": "stripe events resend evt_1T0dfeKkYw7Ewgj4CuD9DiOs --webhook-endpoint=we_1T0LzNKkYw7Ewgj4cGgmqgGy\n"
   },
   "dependencies": {
     "axios": "^1.5.0",
