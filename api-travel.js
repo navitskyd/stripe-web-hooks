@@ -51,14 +51,17 @@ const setupTravelRoutes = (app) => {
 
         const {email} = req.body || {};
         if (!email) {
+          console
           return res.status(400).json({error: 'Email is required'});
         }
+        console.log(`Received /travel request for email: ${email}`);
           // Initialize Firebase Admin
           const admin = require('firebase-admin');
           if (!admin.apps.length) {
             const serviceAccountJson = process.env.FIREBASE_SERVICE_ACCOUNT;
 
             if (!serviceAccountJson) {
+              console.error('FIREBASE_SERVICE_ACCOUNT environment variable is not set');
               throw new Error('FIREBASE_SERVICE_ACCOUNT not set');
             }
 
@@ -75,18 +78,22 @@ const setupTravelRoutes = (app) => {
           try {
             // Firebase keys can't have '.' so replace with ','
             const lookupKey = email.replace(/\./g, ',');
+            console.log(`Looking up user with key: ${lookupKey}`);
             let cacheEntry = userCache[lookupKey];
             let user, matchedLessons;
             const now = Date.now();
             if (cacheEntry && (now - cacheEntry.ts < USER_CACHE_TTL_MS)) {
               user = cacheEntry.user;
               matchedLessons = cacheEntry.lessons;
+              console.log(`Cache hit for ${email}`);
             } else {
+              console.log(`Cache miss for ${email}, querying Firebase...`);
               const db = admin.database();
               const ref = db.ref('travel-users');
               const snapshot = await ref.child(lookupKey).once('value');
               user = snapshot.val();
               if (!user) {
+                console.error(`User not found in Firebase for email: ${email}`);
                 return res.status(404).json({error: 'User not found'});
               }
               // Fetch all lessons from Firebase DB (travel-lessons)
@@ -110,8 +117,10 @@ const setupTravelRoutes = (app) => {
                   }
                 });
               });
+              console.log(`Found ${matchedLessons.length} matching lessons for user ${email}`);
               // Only cache if both user and lessons fetch succeeded
               userCache[lookupKey] = { user, lessons: matchedLessons, ts: now };
+            
             }
             return res.json({user, lessons: matchedLessons});
           } catch (err) {
