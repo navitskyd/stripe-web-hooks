@@ -1,14 +1,15 @@
 const fs = require('fs');
 const path = require('path');
 const admin = require('firebase-admin');
-require('dotenv').config({ path: path.join(__dirname, '../.env') });
+require('dotenv').config({ path: path.join(__dirname, '../../.env') });
 
 // Initialize Firebase Admin
 let serviceAccount;
 if (process.env.FIREBASE_SERVICE_ACCOUNT) {
   serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 } else {
-  const keyPath = path.join(__dirname, '../serviceAccountKey.json');
+  const keyPath = path.join(__dirname, '../../serviceAccountKey.json');
+  console.log(keyPath);
   if (fs.existsSync(keyPath)) {
     serviceAccount = require(keyPath);
   } else {
@@ -272,6 +273,7 @@ async function syncDBToFirebase() {
               if (history.length > 5) history = history.slice(0, 5);
             }
           }
+          // Only update history if changed, otherwise keep as is
           await lessonRef.update({ ...newLesson, history });
         }
         // Also update topic title if changed
@@ -305,6 +307,7 @@ async function syncDBToFirebase() {
             if (history.length > 5) history = history.slice(0, 5);
           }
         }
+        // Only update history if changed, otherwise keep as is
         await userRef.update({ ...newUser, history });
       }
       console.log('✓ Successfully updated users in Firebase');

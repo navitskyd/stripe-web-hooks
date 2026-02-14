@@ -4,7 +4,6 @@
   "description": "Travel Smart module",
   "main": "index.js",
   "scripts": {
-    "sync-db": "node scripts/sync-db-to-firebase.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

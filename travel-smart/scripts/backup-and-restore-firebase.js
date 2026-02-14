@@ -1,14 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 const admin = require('firebase-admin');
-require('dotenv').config({ path: path.join(__dirname, '../.env') });
+require('dotenv').config({ path: path.join(__dirname, '../../.env') });
 
 // Initialize Firebase Admin
 let serviceAccount;
 if (process.env.FIREBASE_SERVICE_ACCOUNT) {
   serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 } else {
-  const keyPath = path.join(__dirname, '../serviceAccountKey.json');
+  const keyPath = path.join(__dirname, '../../serviceAccountKey.json');
   if (fs.existsSync(keyPath)) {
     serviceAccount = require(keyPath);
   } else {
@@ -45,22 +45,37 @@ async function backupAndRestore() {
       console.log('travel-users backed up to travel-users-bkp');
     }
 
-    // Restore from local JSON files
-    const lessonsJsonPath = path.join(__dirname, '../mydb/travel-lessons.json');
-    const usersJsonPath = path.join(__dirname, '../mydb/travel-users.json');
-    if (fs.existsSync(lessonsJsonPath)) {
-      const lessonsData = JSON.parse(fs.readFileSync(lessonsJsonPath, 'utf8'));
-      await db.ref('travel-lessons').set(lessonsData);
-      console.log('travel-lessons restored from travel-lessons.json');
-    } else {
-      console.warn('travel-lessons.json not found, skipping restore.');
+    // Restore from latest JSON files in firebase folder
+    const firebaseDir = path.join(__dirname, '../firebase');
+    let lessonsFile = null, usersFile = null;
+    if (fs.existsSync(firebaseDir)) {
+      const files = fs.readdirSync(firebaseDir);
+      // Find latest travel-lessons_*.json
+      const lessonsFiles = files.filter(f => f.startsWith('travel-lessons_') && f.endsWith('.json'));
+      if (lessonsFiles.length) {
+        lessonsFile = lessonsFiles.sort().reverse()[0];
+      }
+      // Find latest travel-users_*.json
+      const usersFiles = files.filter(f => f.startsWith('travel-users_') && f.endsWith('.json'));
+      if (usersFiles.length) {
+        usersFile = usersFiles.sort().reverse()[0];
+      }
     }
-    if (fs.existsSync(usersJsonPath)) {
-      const usersData = JSON.parse(fs.readFileSync(usersJsonPath, 'utf8'));
-      await db.ref('travel-users').set(usersData);
-      console.log('travel-users restored from travel-users.json');
+    if (lessonsFile) {
+      const lessonsPath = path.join(firebaseDir, lessonsFile);
+      const lessonsData = JSON.parse(fs.readFileSync(lessonsPath, 'utf8'));
+      await db.ref('travel-lessons').set(lessonsData);
+      console.log(`travel-lessons restored from ${lessonsFile}`);
     } else {
-      console.warn('travel-users.json not found, skipping restore.');
+      console.warn('No travel-lessons_*.json found, skipping restore.');
+    }
+    if (usersFile) {
+      const usersPath = path.join(firebaseDir, usersFile);
+      const usersData = JSON.parse(fs.readFileSync(usersPath, 'utf8'));
+      await db.ref('travel-users').set(usersData);
+      console.log(`travel-users restored from ${usersFile}`);
+    } else {
+      console.warn('No travel-users_*.json found, skipping restore.');
     }
   } catch (err) {
     console.error('Error during backup or restore:', err);
