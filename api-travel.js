@@ -9,6 +9,10 @@ const stripe = Stripe(process.env.STRIPE_SECRET);
 
 const setupTravelRoutes = (app) => {
 
+  // In-memory cache for user lookups by email with TTL
+  const userCache = {};
+  const USER_CACHE_TTL_MS = 15 * 60 * 1000; // 15 minutes
+
   app.options('/travel', cors({origin: '*', methods: ['POST']})); // preflight
 
   app.post(
@@ -46,10 +50,20 @@ const setupTravelRoutes = (app) => {
           try {
             // Firebase keys can't have '.' so replace with ','
             const lookupKey = email.replace(/\./g, ',');
-            const db = admin.database();
-            const ref = db.ref('travel-users');
-            const snapshot = await ref.child(lookupKey).once('value');
-            const user = snapshot.val();
+            let cacheEntry = userCache[lookupKey];
+            let user = undefined;
+            const now = Date.now();
+            if (cacheEntry && (now - cacheEntry.ts < USER_CACHE_TTL_MS)) {
+              user = cacheEntry.user;
+            } else {
+              const db = admin.database();
+              const ref = db.ref('travel-users');
+              const snapshot = await ref.child(lookupKey).once('value');
+              user = snapshot.val();
+              if (user) {
+                userCache[lookupKey] = { user, ts: now };
+              }
+            }
             if (!user) {
               return res.status(404).json({error: 'User not found'});
             }
