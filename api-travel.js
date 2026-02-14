@@ -3,6 +3,7 @@ const {sendEmail} = require('./dist/utils/email');
 const cors = require('cors');
 
 const Stripe = require('stripe');
+const admin = require("firebase-admin");
 require('dotenv').config({path: require('path').join(__dirname, '.env')});
 const stripe = Stripe(process.env.STRIPE_SECRET);
 
@@ -26,11 +27,20 @@ const setupTravelRoutes = (app) => {
           // Initialize Firebase Admin
           const admin = require('firebase-admin');
           if (!admin.apps.length) {
+            const serviceAccountJson = process.env.FIREBASE_SERVICE_ACCOUNT;
+
+            if (!serviceAccountJson) {
+              throw new Error('FIREBASE_SERVICE_ACCOUNT not set');
+            }
+
+            const serviceAccount = JSON.parse(serviceAccountJson);
+
             admin.initializeApp({
-              credential: admin.credential.cert(require('./serviceAccountKey.json')),
-              databaseURL: 'https://mini-sites-eea1c.firebaseio.com'
-            });
+              databaseURL: process.env.FIREBASE_DATABASE_URL,
+              credential: admin.credential.cert(serviceAccount as admin.ServiceAccount)
+              });
           }
+
 
           // Lookup user by email in Realtime DB
           try {
