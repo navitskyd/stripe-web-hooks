@@ -8,10 +8,16 @@ require('dotenv').config({path: require('path').join(__dirname, '.env')});
 const stripe = Stripe(process.env.STRIPE_SECRET);
 
 const setupTravelRoutes = (app) => {
+  // Endpoint to clear the in-memory user cache
+  app.post('/travel/reset-cache', (req, res) => {
+    Object.keys(userCache).forEach(key => delete userCache[key]);
+    res.json({ message: 'User cache cleared' });
+  });
 
   // In-memory cache for user lookups by email with TTL
   const userCache = {};
   const USER_CACHE_TTL_MS = 15 * 60 * 1000; // 15 minutes
+    // In-memory cache for user and lessons lookups by email with TTL
 
   app.options('/travel', cors({origin: '*', methods: ['POST']})); // preflight
 
@@ -51,50 +57,46 @@ const setupTravelRoutes = (app) => {
             // Firebase keys can't have '.' so replace with ','
             const lookupKey = email.replace(/\./g, ',');
             let cacheEntry = userCache[lookupKey];
-            let user = undefined;
+            let user, matchedLessons;
             const now = Date.now();
             if (cacheEntry && (now - cacheEntry.ts < USER_CACHE_TTL_MS)) {
               user = cacheEntry.user;
+              matchedLessons = cacheEntry.lessons;
             } else {
               const db = admin.database();
               const ref = db.ref('travel-users');
               const snapshot = await ref.child(lookupKey).once('value');
               user = snapshot.val();
-              if (user) {
-                userCache[lookupKey] = { user, ts: now };
+              if (!user) {
+                return res.status(404).json({error: 'User not found'});
               }
-            }
-            if (!user) {
-              return res.status(404).json({error: 'User not found'});
-            }
-            // Fetch all lessons from Firebase DB (travel-lessons)
-            const lessonsRef = db.ref('travel-lessons');
-            const lessonsSnapshot = await lessonsRef.once('value');
-            const lessonsData = lessonsSnapshot.val() || {};
-
-            // Collect all lessons that match at least one user stream or tag
-            const userStreams = (user.stream || user.streams || '').split(',').map(s => s.trim()).filter(Boolean);
-            const userTags = (user.tag || user.tags || '').split(',').map(t => t.trim()).filter(Boolean);
-            const matchedLessons = [];
-
-            // lessonsData is structured by country/topic, then lessons
-
-            Object.entries(lessonsData).forEach(([topicTitle, country]) => {
-              if (!country.lessons) return;
-              const topicTitleValue = country.title || topicTitle;
-              Object.entries(country.lessons).forEach(([videoId, lesson]) => {
-                const lessonStreams = (lesson.streams || '').split(',').map(s => s.trim()).filter(Boolean);
-                const lessonTags = (lesson.tags || '').split(',').map(t => t.trim()).filter(Boolean);
-                const hasStream = userStreams.some(s => lessonStreams.includes(s));
-                const hasTag = userTags.some(t => lessonTags.includes(t));
-                if (hasStream || hasTag) {
-                  matchedLessons.push({...lesson, videoId, topicTitle: topicTitleValue});
-                }
+              // Fetch all lessons from Firebase DB (travel-lessons)
+              const lessonsRef = db.ref('travel-lessons');
+              const lessonsSnapshot = await lessonsRef.once('value');
+              const lessonsData = lessonsSnapshot.val() || {};
+              // Collect all lessons that match at least one user stream or tag
+              const userStreams = (user.stream || user.streams || '').split(',').map(s => s.trim()).filter(Boolean);
+              const userTags = (user.tag || user.tags || '').split(',').map(t => t.trim()).filter(Boolean);
+              matchedLessons = [];
+              Object.entries(lessonsData).forEach(([topicTitle, country]) => {
+                if (!country.lessons) return;
+                const topicTitleValue = country.title || topicTitle;
+                Object.entries(country.lessons).forEach(([videoId, lesson]) => {
+                  const lessonStreams = (lesson.streams || '').split(',').map(s => s.trim()).filter(Boolean);
+                  const lessonTags = (lesson.tags || '').split(',').map(t => t.trim()).filter(Boolean);
+                  const hasStream = userStreams.some(s => lessonStreams.includes(s));
+                  const hasTag = userTags.some(t => lessonTags.includes(t));
+                  if (hasStream || hasTag) {
+                    matchedLessons.push({...lesson, videoId, topicTitle: topicTitleValue});
+                  }
+                });
               });
-            });
-
+              // Only cache if both user and lessons fetch succeeded
+              userCache[lookupKey] = { user, lessons: matchedLessons, ts: now };
+            }
             return res.json({user, lessons: matchedLessons});
           } catch (err) {
+            // Do not cache anything in case of error
             return res.status(500).json({error: 'Firebase error', details: err.message});
           }
       });
