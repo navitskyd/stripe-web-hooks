@@ -64,15 +64,16 @@ const setupTravelRoutes = (app) => {
             const matchedLessons = [];
 
             // lessonsData is structured by country/topic, then lessons
-            Object.values(lessonsData).forEach(country => {
+
+            Object.entries(lessonsData).forEach(([topicTitle, country]) => {
               if (!country.lessons) return;
-              Object.values(country.lessons).forEach(lesson => {
+              Object.entries(country.lessons).forEach(([videoId, lesson]) => {
                 const lessonStreams = (lesson.streams || '').split(',').map(s => s.trim()).filter(Boolean);
                 const lessonTags = (lesson.tags || '').split(',').map(t => t.trim()).filter(Boolean);
                 const hasStream = userStreams.some(s => lessonStreams.includes(s));
                 const hasTag = userTags.some(t => lessonTags.includes(t));
                 if (hasStream || hasTag) {
-                  matchedLessons.push(lesson);
+                  matchedLessons.push({...lesson, videoId, topicTitle});
                 }
               });
             });
