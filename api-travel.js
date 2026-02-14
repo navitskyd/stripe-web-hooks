@@ -9,7 +9,26 @@ const stripe = Stripe(process.env.STRIPE_SECRET);
 
 const setupTravelRoutes = (app) => {
   // Endpoint to clear the in-memory user cache
-  app.post('/travel/reset-cache', (req, res) => {
+  // Basic auth middleware for sensitive endpoints
+  function basicAuth(req, res, next) {
+    const auth = req.headers.authorization;
+    if (!auth || !auth.startsWith('Basic ')) {
+      res.set('WWW-Authenticate', 'Basic realm="Restricted"');
+      return res.status(401).send('Authentication required.');
+    }
+    const credentials = Buffer.from(auth.split(' ')[1], 'base64').toString().split(':');
+    const [user, pass] = credentials;
+    // Set your username and password here
+    const ADMIN_USER = process.env.RESET_CACHE_USER || 'admin';
+    const ADMIN_PASS = process.env.RESET_CACHE_PASS || 'svethappy78c2';
+    if (user === ADMIN_USER && pass === ADMIN_PASS) {
+      return next();
+    }
+    res.set('WWW-Authenticate', 'Basic realm="Restricted"');
+    return res.status(401).send('Authentication failed.');
+  }
+
+  app.post('/travel/reset-cache', basicAuth, (req, res) => {
     Object.keys(userCache).forEach(key => delete userCache[key]);
     res.json({ message: 'User cache cleared' });
   });
