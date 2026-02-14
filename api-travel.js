@@ -37,7 +37,7 @@ const setupTravelRoutes = (app) => {
 
             admin.initializeApp({
               databaseURL: process.env.FIREBASE_DATABASE_URL,
-              credential: admin.credential.cert(serviceAccount as admin.ServiceAccount)
+              credential: admin.credential.cert(serviceAccount)
               });
           }
 
