@@ -80,6 +80,7 @@ const setupTravelRoutes = (app) => {
           let email;
           try {
             const decodedToken = await admin.auth().verifyIdToken(idToken);
+            console.log(decodedToken);
             email = decodedToken.email;
             if (!email) {
               console.log("Email not found in token")
