@@ -1,4 +1,4 @@
 {
-  "commit": "5211828c3890ec97086b2afde26af29e034ac173",
-  "comment": "show build info under root endpoint"
+  "commit": "f8b5cbc28ff6cde7ff893123d8ff755c9f24f0bf",
+  "comment": "set webhook endpoint even if not stripe key set"
 }
