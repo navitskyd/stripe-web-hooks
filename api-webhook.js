@@ -22,40 +22,39 @@ async function processCheckoutSession(session) {
     // Получаем email покупателя
     const customerEmail = session.customer_details?.email || session.customer_email || null;
 
-    // Получаем product_id из line_items (нужно запросить через Stripe API)
-    let productId = null;
+    // Получаем product_ids из line_items (может быть несколько продуктов)
+    let productIds = [];
     if (session.id) {
-      // Получаем line_items для сессии
-      const lineItems = await stripe.checkout.sessions.listLineItems(session.id, { limit: 1 });
+      // Получаем все line_items для сессии
+      const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
       if (lineItems.data && lineItems.data.length > 0) {
-        // Обычно product id лежит в price.product
-        const price = lineItems.data[0].price;
-        if (price && price.product) {
-          productId = price.product;
-        }
+        productIds = lineItems.data
+          .map(item => item.price && item.price.product)
+          .filter(Boolean);
       }
     }
 
-    console.log('Product ' + productId + ' purchased by ' + customerEmail);
-
-    // Попытка загрузить и вызвать обработчик продукта
-    if (productId) {
-      try {
-        const handlerPath = path.join(__dirname, 'dist', 'products', `${productId}.js`);
-        if (fs.existsSync(handlerPath)) {
-          const handler = require(handlerPath);
-          if (handler.handleProduct && typeof handler.handleProduct === 'function') {
-            await handler.handleProduct(productId, customerEmail);
+    for (const productId of productIds) {
+      console.log('Product ' + productId + ' purchased by ' + customerEmail);
+      // Попытка загрузить и вызвать обработчик продукта
+      if (productId) {
+        try {
+          const handlerPath = path.join(__dirname, 'dist', 'products', `${productId}.js`);
+          if (fs.existsSync(handlerPath)) {
+            const handler = require(handlerPath);
+            if (handler.handleProduct && typeof handler.handleProduct === 'function') {
+              await handler.handleProduct(productId, customerEmail);
+            }
+          } else {
+            console.log(`No handler found for product ${productId}`);
           }
-        } else {
-          console.log(`No handler found for product ${productId}`);
+        } catch (err) {
+          console.error(`Error loading/calling product handler for ${productId}:`, err && err.message ? err.message : err);
         }
-      } catch (err) {
-        console.error(`Error loading/calling product handler for ${productId}:`, err && err.message ? err.message : err);
       }
     }
 
-    return { productId, customerEmail };
+    return { productIds, customerEmail };
   } catch (err) {
     console.error('Error in processCheckoutSession:', err && err.message ? err.message : err);
     throw err;
