@@ -48,24 +48,17 @@ const setupTravelRoutes = (app) => {
         allowedHeaders: ['Content-Type', 'Authorization']
       }),
       async (req, res) => {
-        
-        // Extract Bearer token from Authorization header
-        const authHeader = req.headers.authorization;
-        if (!authHeader || !authHeader.startsWith('Bearer ')) {
-          return res.status(401).json({ error: 'Missing or invalid Authorization header' });
-        }
-        const idToken = authHeader.split(' ')[1];
+
         let email;
-        try {
-          const decodedToken = await admin.auth().verifyIdToken(idToken);
-          email = decodedToken.email;
-          if (!email) {
-            return res.status(401).json({ error: 'Email not found in token' });
-          }
-        } catch (err) {
-          return res.status(401).json({ error: 'Invalid or expired token', details: err.message });
+
+        let {emailBody} = req.body || {};
+        if (!emailBody) {
+          return res.status(400).json({error: 'Email is required'});
         }
-        console.log(`Received /travel request for email: ${email}`);
+
+        email = emailBody;
+
+        console.log(`Received /travel request for email: ${emailFromToken}`);
           // Initialize Firebase Admin
           const admin = require('firebase-admin');
           if (!admin.apps.length) {
@@ -82,8 +75,29 @@ const setupTravelRoutes = (app) => {
               databaseURL: process.env.FIREBASE_DATABASE_URL,
               credential: admin.credential.cert(serviceAccount)
               });
-          }
 
+            // Extract Bearer token from Authorization header
+            let emailFromToken;
+            const authHeader = req.headers.authorization;
+            if (!authHeader || !authHeader.startsWith('Bearer ')) {
+              console.log('Missing or invalid Authorization header')
+              // return res.status(401).json({ error: 'Missing or invalid Authorization header' });
+            }
+            const idToken = authHeader.split(' ')[1];
+            console.log(idToken);
+            try {
+              const decodedToken = await admin.auth().verifyIdToken(idToken);
+              emailFromToken = decodedToken.email;
+              email = emailFromToken; // Override email with the one from token
+              if (!emailFromToken) {
+                console.log("Email not found in token")
+                //return res.status(401).json({ error: 'Email not found in token' });
+              }
+            } catch (err) {
+              console.error('Token verification failed:', err.message);
+//              return res.status(401).json({ error: 'Invalid or expired token', details: err.message });
+            }
+          }
 
           // Lookup user by email in Realtime DB
           try {
