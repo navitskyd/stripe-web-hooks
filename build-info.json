@@ -1,4 +1,4 @@
 {
-  "commit": "17a5f4486d28c970611e91f3c7dda6e6eda655cf",
-  "comment": "fix id token"
+  "commit": "8e270f188979dc72a95f2b86db1c683da1a4f924",
+  "comment": "finalize getting email from token"
 }
