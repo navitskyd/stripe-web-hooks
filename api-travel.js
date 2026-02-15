@@ -48,11 +48,22 @@ const setupTravelRoutes = (app) => {
         allowedHeaders: ['Content-Type', 'Authorization']
       }),
       async (req, res) => {
-
-        const {email} = req.body || {};
-        if (!email) {
-          console
-          return res.status(400).json({error: 'Email is required'});
+        
+        // Extract Bearer token from Authorization header
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+          return res.status(401).json({ error: 'Missing or invalid Authorization header' });
+        }
+        const idToken = authHeader.split(' ')[1];
+        let email;
+        try {
+          const decodedToken = await admin.auth().verifyIdToken(idToken);
+          email = decodedToken.email;
+          if (!email) {
+            return res.status(401).json({ error: 'Email not found in token' });
+          }
+        } catch (err) {
+          return res.status(401).json({ error: 'Invalid or expired token', details: err.message });
         }
         console.log(`Received /travel request for email: ${email}`);
           // Initialize Firebase Admin
