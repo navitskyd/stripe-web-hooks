@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "build": "tsc",
+    "build-info": "node scripts/update-build-info.js",
     "start": "npm run build && node server.js",
     "start:prod": "node server.js",
     "dev": "ts-node server.ts",
