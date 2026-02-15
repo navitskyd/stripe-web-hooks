@@ -1,4 +1,4 @@
 {
-  "commit": "7d965f57caa075bb6e0968c7bed2b9624bc9762c",
-  "comment": "send 401 if no data"
+  "commit": "c5af8197adbe7740085206934b372ababf953aea",
+  "comment": "log decoded token"
 }
