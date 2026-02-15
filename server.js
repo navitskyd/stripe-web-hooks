@@ -11,18 +11,6 @@ const port = process.env.PORT || 3000;
 
 // Root endpoint
 app.get('/', (req, res) => {
-  res.json({ message: 'Stripe webhook & promo server' });
-});
-
-// Mount route handlers
-setupWebhookRoutes(app);
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-setupPromoRoutes(app);
-setupTravelRoutes(app);
-
-app.get('/build-info', (req, res) => {
   try {
     const buildInfoPath = path.join(__dirname, 'build-info.json');
     if (fs.existsSync(buildInfoPath)) {
@@ -35,5 +23,14 @@ app.get('/build-info', (req, res) => {
     res.status(500).json({ error: 'Failed to read build info', details: err.message });
   }
 });
+
+// Mount route handlers
+setupWebhookRoutes(app);
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+setupPromoRoutes(app);
+setupTravelRoutes(app);
+
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
