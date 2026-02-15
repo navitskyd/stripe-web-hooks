@@ -56,7 +56,7 @@ const setupTravelRoutes = (app) => {
         }
 
         console.log(`Received /travel request for email: ${email}`);
-        
+
         // Initialize Firebase Admin
         const admin = require('firebase-admin');
         if (!admin.apps.length) {
@@ -85,9 +85,8 @@ const setupTravelRoutes = (app) => {
           console.log(idToken);
           try {
             const decodedToken = await admin.auth().verifyIdToken(idToken);
-            let emailFromToken = decodedToken.email;
-            email = emailFromToken; // Override email with the one from token
-            if (!emailFromToken) {
+            email = decodedToken.email;
+            if (!email) {
               console.log("Email not found in token")
               //return res.status(401).json({ error: 'Email not found in token' });
             }
