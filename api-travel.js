@@ -50,12 +50,14 @@ const setupTravelRoutes = (app) => {
       }),
       async (req, res) => {
 
-        let {email} = req.body || {};
-        if (!email) {
-          return res.status(400).json({error: 'Email is required'});
+        // Extract Bearer token from Authorization header
+        const authHeader = req.headers.authorization;
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+          console.log('Missing or invalid Authorization header')
+          return res.status(401).json({ error: 'Missing or invalid Authorization header' });
         }
-
-        console.log(`Received /travel request for email: ${email}`);
+        const idToken = authHeader.split(' ')[1];
+        console.log('Received /travel request for ' + idToken);
 
         // Initialize Firebase Admin
         const admin = require('firebase-admin');
@@ -75,24 +77,17 @@ const setupTravelRoutes = (app) => {
             credential: admin.credential.cert(serviceAccount)
           });
 
-          // Extract Bearer token from Authorization header
-          const authHeader = req.headers.authorization;
-          if (!authHeader || !authHeader.startsWith('Bearer ')) {
-            console.log('Missing or invalid Authorization header')
-            // return res.status(401).json({ error: 'Missing or invalid Authorization header' });
-          }
-          const idToken = authHeader.split(' ')[1];
-          console.log(idToken);
+          let email;
           try {
             const decodedToken = await admin.auth().verifyIdToken(idToken);
             email = decodedToken.email;
             if (!email) {
               console.log("Email not found in token")
-              //return res.status(401).json({ error: 'Email not found in token' });
+              return res.status(401).json({ error: 'Email not found in token' });
             }
           } catch (err) {
             console.error('Token verification failed:', err.message);
-//              return res.status(401).json({ error: 'Invalid or expired token', details: err.message });
+             return res.status(401).json({ error: 'Invalid or expired token', details: err.message });
           }
         }
 
