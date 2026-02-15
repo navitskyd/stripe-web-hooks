@@ -49,14 +49,10 @@ const setupTravelRoutes = (app) => {
       }),
       async (req, res) => {
 
-        let email;
-
-        let {emailBody} = req.body || {};
-        if (!emailBody) {
+        let {email} = req.body || {};
+        if (!email) {
           return res.status(400).json({error: 'Email is required'});
         }
-
-        email = emailBody;
 
         console.log(`Received /travel request for email: ${emailFromToken}`);
           // Initialize Firebase Admin
@@ -77,7 +73,6 @@ const setupTravelRoutes = (app) => {
               });
 
             // Extract Bearer token from Authorization header
-            let emailFromToken;
             const authHeader = req.headers.authorization;
             if (!authHeader || !authHeader.startsWith('Bearer ')) {
               console.log('Missing or invalid Authorization header')
@@ -87,7 +82,7 @@ const setupTravelRoutes = (app) => {
             console.log(idToken);
             try {
               const decodedToken = await admin.auth().verifyIdToken(idToken);
-              emailFromToken = decodedToken.email;
+              let emailFromToken = decodedToken.email;
               email = emailFromToken; // Override email with the one from token
               if (!emailFromToken) {
                 console.log("Email not found in token")
