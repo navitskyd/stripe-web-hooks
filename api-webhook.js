@@ -87,7 +87,14 @@ const setupWebhookRoutes = (app) => {
         res.status(500).send('Error handling event');
       }
     });
+  } else {
+    app.post('/webhook/checkout', express.raw({ type: 'application/json' }), async (req, res) => {
+      console.warn('STRIPE_WEBHOOK_SECRET is not set. Webhook signature verification is disabled.');
+      console.log(req.body)
+    });
   }
+
+
 };
 
 module.exports = { setupWebhookRoutes };
