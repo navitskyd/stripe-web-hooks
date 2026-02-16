@@ -1,5 +1,5 @@
 {
-	"date": "2026-02-16 00:09:26 WET",
-	"comment": "id token validaiotn",
-	"version": "1.3.0"
+	"date": "2026-02-16 00:22:15 WET",
+	"comment": "rearange code, fix token extraction",
+	"version": "1.4.0"
 }
