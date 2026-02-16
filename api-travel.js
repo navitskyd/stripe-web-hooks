@@ -58,6 +58,7 @@ const setupTravelRoutes = (app) => {
         }
         const idToken = authHeader.split(' ')[1];
         console.log('Received /travel request for ' + idToken);
+        let email;
 
         // Initialize Firebase Admin
         const admin = require('firebase-admin');
@@ -77,11 +78,10 @@ const setupTravelRoutes = (app) => {
             credential: admin.credential.cert(serviceAccount)
           });
 
-          let email;
           try {
             const decodedToken = await admin.auth().verifyIdToken(idToken);
             email = decodedToken.email;
-            console.log('email from toekn: ' + decodedToken.email);
+            console.log('email from token: ' + decodedToken.email);
             if (!email) {
               console.log("Email not found in token")
               return res.status(401).json({ error: 'Email not found in token' });
