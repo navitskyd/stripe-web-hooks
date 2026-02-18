@@ -12,7 +12,7 @@ const port = process.env.PORT || 3000;
 // Root endpoint
 app.get('/', (req, res) => {
   try {
-    const buildInfoPath = path.join(__dirname, 'build-info.json');
+    const buildInfoPath = path.join(__dirname,'..','..', 'build-info.json');
     if (fs.existsSync(buildInfoPath)) {
       const buildInfo = JSON.parse(fs.readFileSync(buildInfoPath, 'utf8'));
       res.json(buildInfo);
