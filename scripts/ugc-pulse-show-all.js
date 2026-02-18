@@ -117,17 +117,17 @@ async function main() {
     await ref.update(updates); // патч только поля daysLeft [web:80]
 
     // 3) сортируем по обновлённому daysLeft
-    // listRaw.sort((a, b) => {
-    //   const da = Number(a.daysLeft) || 0;
-    //   const dbb = Number(b.daysLeft) || 0;
-    //   return dbb - da;
-    // });
-
     listRaw.sort((a, b) => {
-      const da = Number(a.tariff) || 0;
-      const dbb = Number(b.tariff) || 0;
+      const da = Number(a.daysLeft) || 0;
+      const dbb = Number(b.daysLeft) || 0;
       return dbb - da;
     });
+
+    // listRaw.sort((a, b) => {
+    //   const da = Number(a.tariff) || 0;
+    //   const dbb = Number(b.tariff) || 0;
+    //   return dbb - da;
+    // });
 
 // 4) готовим данные для табличного вывода
     const list = listRaw.map((u, idx) => ({
