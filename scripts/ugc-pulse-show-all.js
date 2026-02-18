@@ -1,6 +1,5 @@
 // read-ugc-pulse-sorted.js
-const {getRef} = require('./common');
-const {sendEmail} = require("../src/utils/email");
+const {getRef,sendEmail} = require('../src/utils/common');
 const ref = getRef('ugc-pulse');
 
 const today = new Date();

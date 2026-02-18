@@ -1,8 +1,10 @@
 
 // firebase.js
 const admin = require('firebase-admin');
+const crypto = require('crypto');
 const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '../.env') });
+require('dotenv').config({ path: path.join(__dirname, '../../.env') });
+const { sendEmail } = require('./email');
 
 // Инициализация Firebase Admin
 if (!admin.apps.length) {
@@ -24,9 +26,13 @@ const db = admin.database();
 function getRef(pathInDb) {
   return db.ref(pathInDb);
 }
+function keyFromUserId(userID) {
+  return crypto.createHash('sha256').update(userID || 'no-id', 'utf8').digest('hex');
+}
 
 module.exports = {
   admin,
   db,
   getRef,
+  sendEmail, keyFromUserId
 };

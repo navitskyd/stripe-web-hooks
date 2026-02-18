@@ -1,12 +1,9 @@
-const path = require('path');
 const fs = require('fs');
-const { db, getRef } = require('./common');
 
 async function main(productId, customerEmail) {
   const path = require('path');
 
-  const handlerPath = path.join(__dirname,'..', 'dist', 'products', `${productId}.js`);
-  console.log(handlerPath)
+  const handlerPath = path.join(__dirname,'..', 'src', 'products', `${productId}.js`);
 
   if (!fs.existsSync(handlerPath)) {
     console.error('Handler file not found:', handlerPath);
@@ -25,5 +22,8 @@ async function main(productId, customerEmail) {
 }
 
 // пример вызова
-main('prod_TLoPLmbyPJkGOK', 'dnavitski@gmail.com').catch(console.error);
-main('prod_TLoR6Pvip9OLxU', 'dnavitski@gmail.com').catch(console.error);
+// main('prod_TLoPLmbyPJkGOK', 'dnavitski@gmail.com').catch(console.error)
+// .then(()=> main('prod_TLoR6Pvip9OLxU', 'dnavitski@gmail.com').catch(console.error));
+
+main('prod_TqQ0yWcDioH90x', 'dnavitski@gmail.com').catch(console.error);
+
