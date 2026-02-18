@@ -1,5 +1,5 @@
 // products/prod_travel_smart_webinar.js
-const { sendEmail,db,admin } = require('../utils/common');
+const { sendEmail,getRef,admin } = require('../utils/common');
 
 const bodyWithPassword = `
     Здравствуйте!
@@ -45,7 +45,7 @@ async function handleProduct(productId, customerEmail) {
 
   try {
     const encodedEmail = customerEmail.replace(/\./g, ',');
-    const userRef = db.ref('travel-users').child(encodedEmail);
+    const userRef = getRef('travel-users').child(encodedEmail);
     const snapshot = await userRef.once('value');
     const userData = snapshot.val();
 

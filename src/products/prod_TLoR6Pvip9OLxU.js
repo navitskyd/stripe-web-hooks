@@ -11,14 +11,18 @@ async function handleProduct(productId, customerEmail) {
   const ref = getRef('ugc-pulse/' + id);
 
   // читаем текущее daysPaid
-  const snap = await ref.child('daysPaid').once('value');
-  const daysPaid = Number(snap.val()) || 0;
+
+  const snapshot = await ref.once('value');
+  const userData = snapshot.val();
+  const daysPaid = Number(userData.daysPaid) || 0;
 
   const date = new Date();
   const dataToWrite = {
     userID: customerEmail,
     lastPaymentDate: date.toISOString(),
     daysPaid: daysPaid + 30,
+    tariff: userData.tariff,
+    sent: ''
   };
 
   await ref.set(dataToWrite)
