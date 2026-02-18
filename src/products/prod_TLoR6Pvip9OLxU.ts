@@ -51,15 +51,18 @@ export const handleProduct = async (productId: string, customerEmail: string) =>
   const ugcPulseChatId = -1002906638589;
   const ugcPulseId = -1002913124875;
   let id = keyFromUserId(customerEmail);
+  const ref = getRef('ugc-pulse/' + id);
+  const snap = await ref.child('daysPaid').once('value'); // или ref.once('value') и потом snap.val().daysPaid
+  const daysPaid = snap.val() || 0;
+
   let date = new Date();
   const dataToWrite = {
       userID:customerEmail,
       lastPaymentDate: date.toISOString(),
-      daysPaid: 30,
-    tariff: '€30',
+      daysPaid: daysPaid + 30
   }
 
-  const ref = getRef('ugc-pulse/' + id);
+
   ref
   .set(dataToWrite)
   .then(() => {
