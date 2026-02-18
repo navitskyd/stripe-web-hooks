@@ -4,12 +4,9 @@
   "description": "Simple Node app to accept Stripe webhooks",
   "main": "server.js",
   "scripts": {
-    "build": "tsc",
-    "start": "npm run build && node server.js",
-    "start:prod": "node server.js",
-    "dev": "ts-node server.ts",
+    "start:prod": "node src/server/server.js",
     "test": "jest --detectOpenHandles",
-    "send-event": "stripe events resend evt_1T0dfeKkYw7Ewgj4CuD9DiOs --webhook-endpoint=we_1T0LzNKkYw7Ewgj4cGgmqgGy\n"
+    "send-event": "stripe events resend evt_??? --webhook-endpoint=we_??"
   },
   "dependencies": {
     "axios": "^1.5.0",
@@ -28,8 +25,6 @@
     "@types/nodemailer": "^6.4.14",
     "@types/proper-lockfile": "^4.1.4",
     "jest": "^30.2.0",
-    "supertest": "^7.2.2",
-    "ts-node": "^10.9.0",
-    "typescript": "^5.3.0"
+    "supertest": "^7.2.2"
   }
 }

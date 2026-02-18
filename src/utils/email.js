@@ -1,6 +1,7 @@
-import * as nodemailer from 'nodemailer';
+// email.js
+const nodemailer = require('nodemailer');
 
-const formatEmailHtml = (content: string): string => {
+const formatEmailHtml = (content) => {
   return `
 <!DOCTYPE html>
 <html>
@@ -50,32 +51,29 @@ ${content}
   `;
 };
 
-export const sendHtmlEmail = async (
-  from: string,
-  to: string,
-  subject: string,
-  htmlContent: string
-): Promise<void> => {
+const sendHtmlEmail = async (from, to, subject, htmlContent) => {
   try {
     const password = process.env.GMAIL_APP_PASSWORD;
     const user = process.env.GMAIL_USER;
     if (!password) {
       throw new Error('GMAIL_APP_PASSWORD environment variable not set');
     }
+    if (!user) {
+      throw new Error('GMAIL_USER environment variable not set');
+    }
 
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 587,
-      //secure: true,
+      secure: false, // STARTTLS [web:103][web:105]
       auth: {
         user: user,
-        pass: password
+        pass: password,
       },
-      debug: false, // show debug output
-  logger: false, // log information in console
-  pool: true,
-  socketTimeout: 3000,
-  from: from
+      debug: false,
+      logger: false,
+      pool: true,
+      socketTimeout: 3000,
     });
 
     const formattedHtml = formatEmailHtml(htmlContent);
@@ -84,23 +82,24 @@ export const sendHtmlEmail = async (
       from,
       to,
       subject,
-      html: formattedHtml
+      html: formattedHtml,
     };
 
     const info = await transporter.sendMail(mailOptions);
     console.log('Email sent successfully:', info.response);
-  } catch (err: unknown) {
+  } catch (err) {
     const errMsg = err instanceof Error ? err.message : String(err);
     console.error('Error sending email:', errMsg);
     throw err;
   }
 };
 
-export const sendEmail = async (
-  from: string,
-  to: string,
-  subject: string,
-  htmlContent: string
-): Promise<void> => {
-  await sendHtmlEmail(from, to, subject, htmlContent);
+const sendEmail = async (from, to, subject, htmlContent) => {
+  return sendHtmlEmail(from, to, subject, htmlContent);
+};
+
+module.exports = {
+  formatEmailHtml,
+  sendHtmlEmail,
+  sendEmail,
 };

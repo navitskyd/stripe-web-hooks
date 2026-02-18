@@ -1,5 +1,5 @@
 const express = require('express');
-const {sendEmail} = require('./dist/utils/email');
+const {sendEmail} = require('../utils/email');
 const cors = require('cors');
 
 const Stripe = require('stripe');

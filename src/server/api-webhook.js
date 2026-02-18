@@ -5,7 +5,6 @@ const path = require('path');
 
 const stripe = Stripe(process.env.STRIPE_SECRET);
 
-
 const handleEvent = async (event) => {
   switch (event.type) {
     case 'checkout.session.completed': {

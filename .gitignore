@@ -1,6 +1,8 @@
 node_modules/
 commands.sh
 .env
+.env.DEV
+.env.PROD
 .idea
 dist/
 key.json

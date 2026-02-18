@@ -27,10 +27,6 @@ RUN npm ci --include=dev
 # Copy application code
 COPY . .
 
-# Compile TypeScript to JavaScript
-RUN npm run build
-
-
 # Final stage for app image
 FROM base
 

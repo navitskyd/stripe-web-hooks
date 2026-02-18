@@ -1,5 +1,5 @@
 {
-	"date": "2026-02-18 10:42:43 WET",
-	"comment": "fix number set",
-	"version": "1.12.0"
+	"date": "2026-02-18 11:41:30 WET",
+	"comment": "reorganize and convert ts to js",
+	"version": "1.15.0"
 }
