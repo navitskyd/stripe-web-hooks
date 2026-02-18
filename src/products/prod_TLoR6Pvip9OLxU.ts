@@ -7,7 +7,7 @@ if (!admin.apps.length) {
   let firebaseserviceaccount = process.env.FIREBASE_SERVICE_ACCOUNT || '';
   console.log(firebaseserviceaccount)
   admin.initializeApp({
-    credential: admin.credential.cert(JSON.parse(firebaseserviceaccount)),
+    credential: admin.credential.cert(firebaseserviceaccount),
     databaseURL: process.env.FIREBASE_DATABASE_URL
   });
 }
