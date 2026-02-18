@@ -1,10 +1,7 @@
-const express = require('express');
-const {sendEmail} = require('../utils/email');
-const cors = require('cors');
 
+const cors = require('cors');
+const {admin} = require('../utils/common');
 const Stripe = require('stripe');
-const admin = require("firebase-admin");
-require('dotenv').config({path: require('path').join(__dirname, '.env')});
 const stripe = Stripe(process.env.STRIPE_SECRET);
 
 const setupTravelRoutes = (app) => {
@@ -49,22 +46,6 @@ const setupTravelRoutes = (app) => {
       return null;
     }
     return authHeader.split(' ')[1];
-  }
-
-  function initFirebaseAdmin() {
-    const admin = require('firebase-admin');
-    if (!admin.apps.length) {
-      const serviceAccountJson = process.env.FIREBASE_SERVICE_ACCOUNT;
-      if (!serviceAccountJson) {
-        throw new Error('FIREBASE_SERVICE_ACCOUNT not set');
-      }
-      const serviceAccount = JSON.parse(serviceAccountJson);
-      admin.initializeApp({
-        databaseURL: process.env.FIREBASE_DATABASE_URL,
-        credential: admin.credential.cert(serviceAccount)
-      });
-    }
-    return admin;
   }
 
   async function verifyTokenAndGetEmail(admin, idToken) {
@@ -135,12 +116,7 @@ const setupTravelRoutes = (app) => {
       if (!idToken) {
         return res.status(401).json({ error: 'Missing or invalid Authorization header' });
       }
-      let admin;
-      try {
-        admin = initFirebaseAdmin();
-      } catch (err) {
-        return res.status(500).json({ error: err.message });
-      }
+
       let email;
       try {
         email = await verifyTokenAndGetEmail(admin, idToken);

@@ -1,9 +1,9 @@
-const express = require('express');
-const {sendEmail} = require('../utils/email');
+
+const {sendEmail} = require('../utils/common');
 const cors = require('cors');
 
 const Stripe = require('stripe');
-require('dotenv').config({path: require('path').join(__dirname, '.env')});
+
 const stripe = Stripe(process.env.STRIPE_SECRET);
 
 const setupPromoRoutes = (app) => {

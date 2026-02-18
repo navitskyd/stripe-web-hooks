@@ -1,15 +1,14 @@
-import {createInviteLink} from "../utils/utils";
-import {sendEmail} from "../utils/email";
+// products/prod_UgcLab.js
+const { sendEmail } = require('../utils/common');
+const { createInviteLink } = require('../utils/utils');
 
-export const handleProduct = async (productId: string, customerEmail: string) => {
-
-
-// Reels intensiv
-  console.log("Reels Интенсив для " + customerEmail);
+async function handleProduct(productId, customerEmail) {
+  // UGC Lab
+  console.log('Практикум по съемке UGC видео для ' + customerEmail);
 
   const body = `
 Благодарим за оплату!
-Приглашаем вас в «Reels Интенсив»
+Приглашаем вас в «Практикум по съемке UGC видео»
 
 Ссылки, контакты и мои личные инструкции уже ждут вас в закрытой Telegram группе.
 
@@ -22,11 +21,20 @@ export const handleProduct = async (productId: string, customerEmail: string) =>
 [TG_LINK]
 
 По техническим вопросам можно писать на email <a href="mailto:svethappy3@gmail.com">svethappy3@gmail.com</a>
-`
+`;
 
   // create personalized TG link
-  const tgLink = await createInviteLink( "-1003807984282",customerEmail);
+  const tgLink = await createInviteLink('-1003861932078', customerEmail);
   const personalizedBody = body.replace('[TG_LINK]', tgLink);
 
-  await sendEmail('Svethappy <svethappy3@gmail.com>', customerEmail, 'Reels Интенсив"', personalizedBody);
+  await sendEmail(
+      'Svethappy <svethappy3@gmail.com>',
+      customerEmail,
+      'Практикум по съемке UGC видео"',
+      personalizedBody
+  );
+}
+
+module.exports = {
+  handleProduct,
 };
