@@ -1,38 +1,9 @@
-const fs = require('fs');
-const path = require('path');
-const admin = require('firebase-admin');
-require('dotenv').config({ path: path.join(__dirname, '../.env') });
-
-// Initialize Firebase Admin
-let serviceAccount;
-if (process.env.FIREBASE_SERVICE_ACCOUNT) {
-  serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
-} else {
-  const keyPath = path.join(__dirname, '../serviceAccountKey.json');
-  if (fs.existsSync(keyPath)) {
-    serviceAccount = require(keyPath);
-  } else {
-    console.error('Error: serviceAccountKey.json not found and FIREBASE_SERVICE_ACCOUNT env var not set');
-    process.exit(1);
-  }
-}
-
-if (!process.env.FIREBASE_DATABASE_URL) {
-  console.error('Error: FIREBASE_DATABASE_URL environment variable is not set');
-  process.exit(1);
-}
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: process.env.FIREBASE_DATABASE_URL
-});
-
-const db = admin.database();
+const {admin,getRef, db,fs, path} = require('../../src/utils/common')
 
 async function fetchAndSave() {
   try {
     // Ensure firebase folder exists
-    const firebaseDir = path.join(__dirname, '../firebase');
+    const firebaseDir = path.join(__dirname, 'firebase');
     if (!fs.existsSync(firebaseDir)) {
       fs.mkdirSync(firebaseDir);
     }

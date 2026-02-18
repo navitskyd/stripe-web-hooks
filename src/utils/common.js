@@ -1,7 +1,7 @@
 
 // firebase.js
 const admin = require('firebase-admin');
-
+const fs = require('fs');
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '../../.env') });
 const { sendEmail } = require('./email');
@@ -30,6 +30,6 @@ function getRef(pathInDb) {
 module.exports = {
   admin,
   db,
-  getRef,
-  sendEmail
+  getRef,path,
+  sendEmail,fs
 };
