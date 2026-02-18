@@ -19,7 +19,12 @@ const handleEvent = async (event) => {
 async function processCheckoutSession(session) {
   try {
     // Получаем email покупателя
-    const customerEmail = session.customer_details?.email || session.customer_email || null;
+    let customerEmail = session.customer_details?.email || session.customer_email || null;
+    if(!customerEmail ) {
+      console.error(`Error retrieving customer ${session.customer}:`, err && err.message ? err.message : err);
+      return
+    }
+    customerEmail = customerEmail.toLowerCase();
 
     // Получаем product_ids из line_items (может быть несколько продуктов)
     let productIds = [];

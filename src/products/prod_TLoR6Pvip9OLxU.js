@@ -24,7 +24,7 @@ async function handleProduct(productId, customerEmail) {
   userData.lastPaymentDate = date.toISOString();
   userData.daysPaid = daysFrom<1 ? daysPaid + 30  : 30; // если с момента последнего платежа прошло меньше дня, то просто добавляем 30 дней, иначе перезаписываем на 30 дней
   userData.sent = '';
-  
+
   await ref.set(userData)
   .then(() => {
     console.log('✅ ugc-pulse seeded successfully ' + date.toISOString());
