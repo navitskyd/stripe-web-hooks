@@ -1,5 +1,5 @@
 // read-ugc-pulse-sorted.js
-const {getRef,sendEmail} = require('../src/utils/common');
+const {getRef,sendEmail,extractNumber} = require('../src/utils/common');
 const ref = getRef('ugc-pulse');
 
 const today = new Date();
@@ -51,16 +51,18 @@ async function main() {
       const daysPassed = calcDaysFrom(lastPaymentDate);
 
       const newDaysLeft = originalDaysPaid - daysPassed;
-
+      let tariff = extractNumber(value.tariff) || 15; // по умолчанию 15 евро, если не указано
 
       updates[`${key}/daysLeft`] = newDaysLeft;
+      updates[`${key}/tariff`] = tariff;
 
       let sent = value.sent || '';
       if (newDaysLeft < 4 && !sent) {
         console.warn(
             `⚠️ User ${key} has negative daysLeft (${newDaysLeft}). Consider checking their data.`);
 
-        const body = `
+        if(tariff===0 || tariff===15) {
+          const body = `
           Здравствуйте!
           
           Ваша подписка на UGC Club от Svethappy истекла или скоро истекает!
@@ -74,10 +76,11 @@ async function main() {
           С Уважением,
           Команда Svethappy
 `;
-        // console.log("[SKIPPED] Sending email to:", value.userID, "with body:", body);
-       await sendEmail('Svethappy <svethappy3@gmail.com>', value.userID, 'UGC Pulse', body);
-        updates[`${key}/sent`] = today;
-        sent = today
+          await sendEmail('Svethappy <svethappy3@gmail.com>', value.userID, 'UGC Pulse', body);
+          updates[`${key}/sent`] = today;
+          sent = today
+        }
+
       }
 
       listRaw.push({
@@ -94,9 +97,15 @@ async function main() {
     await ref.update(updates); // патч только поля daysLeft [web:80]
 
     // 3) сортируем по обновлённому daysLeft
+    // listRaw.sort((a, b) => {
+    //   const da = Number(a.daysLeft) || 0;
+    //   const dbb = Number(b.daysLeft) || 0;
+    //   return dbb - da;
+    // });
+
     listRaw.sort((a, b) => {
-      const da = Number(a.daysLeft) || 0;
-      const dbb = Number(b.daysLeft) || 0;
+      const da = Number(a.tariff) || 0;
+      const dbb = Number(b.tariff) || 0;
       return dbb - da;
     });
 
@@ -111,7 +120,7 @@ async function main() {
       telegramNickname: u.telegramNickname || u.tg_nick || '',
       daysLeft: u.daysLeft || 0,
       daysPaid: u.dayspaid || u.daysPaid || '',
-      tariff: u.tariff || '',
+      tariff: '€'+u.tariff,
       sent: u.sent || '',
     }));
 

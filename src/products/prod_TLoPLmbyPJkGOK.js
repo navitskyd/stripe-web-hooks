@@ -14,8 +14,8 @@ async function handleProduct(productId, customerEmail) {
   const dataToWrite = {
     userID: customerEmail,
     lastPaymentDate: date.toISOString(),
-    daysPaid: 30,
-    tariff: '€30',
+    daysPaid: 30, // 1 month
+    tariff: 30, // 30 euro
   };
 
   const ref = getRef('ugc-pulse/' + id);

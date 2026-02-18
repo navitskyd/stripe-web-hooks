@@ -29,10 +29,20 @@ function getRef(pathInDb) {
 function keyFromUserId(userID) {
   return crypto.createHash('sha256').update(userID || 'no-id', 'utf8').digest('hex');
 }
+function extractNumber(str) {
+  if (str == null) return null;
 
+  // Ищем первую последовательность цифр (возможно с точкой/запятой)
+  const match = String(str).match(/[-+]?\d*[\.,]?\d+/);
+  if (!match) return null;
+
+  // Заменяем запятую на точку и парсим
+  const num = parseFloat(match[0].replace(',', '.'));
+  return Number.isNaN(num) ? null : num;
+}
 module.exports = {
   admin,
   db,
   getRef,
-  sendEmail, keyFromUserId
+  sendEmail, keyFromUserId,extractNumber
 };
