@@ -4,10 +4,10 @@ import * as admin from 'firebase-admin';
 import { sendEmail } from '../utils/email';
 
 if (!admin.apps.length) {
-  const serviceAccountPath = path.join(__dirname, '../../travel-smart/serviceAccountKey.json');
-  const serviceAccount = require(serviceAccountPath);
+  let firebaseserviceaccount = process.env.FIREBASE_SERVICE_ACCOUNT || '';
+  console.log(firebaseserviceaccount)
   admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
+    credential: admin.credential.cert(JSON.parse(firebaseserviceaccount)),
     databaseURL: process.env.FIREBASE_DATABASE_URL
   });
 }
