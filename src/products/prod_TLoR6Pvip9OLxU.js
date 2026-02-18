@@ -21,8 +21,12 @@ async function handleProduct(productId, customerEmail) {
   let daysFrom = calcDaysFrom(lastPaymentDate );
   console.log("Extra month purchase. Current daysPaid:", daysPaid, "lastPaymentDate:", lastPaymentDate, "daysFrom:", daysFrom);
 
+  const originalDaysPaid = Number( userData.daysPaid || 0);
+  const daysPassed = calcDaysFrom(userData.lastPaymentDate);
+  const newDaysLeft = originalDaysPaid - daysPassed;
+
   userData.lastPaymentDate = date.toISOString();
-  userData.daysPaid = daysFrom<1 ? daysPaid + 30  : 30; // если с момента последнего платежа прошло меньше дня, то просто добавляем 30 дней, иначе перезаписываем на 30 дней
+  userData.daysPaid = newDaysLeft + 30; // добавляем 30 дней к оставшимся дням
   userData.sent = '';
 
   await ref.set(userData)
