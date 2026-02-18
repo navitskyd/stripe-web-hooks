@@ -69,6 +69,7 @@ const setupWebhookRoutes = (app) => {
     app.post('/webhook/checkout', express.raw({ type: 'application/json' }), async (req, res) => {
       const sig = req.headers['stripe-signature'];
       const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+      console.log(webhookSecret)
 
       let event;
       try {
