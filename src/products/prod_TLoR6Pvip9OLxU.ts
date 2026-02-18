@@ -1,32 +1,15 @@
-import {sendEmail} from "../utils/email";
-import admin from "firebase-admin";
-import path from "path";
-import fs from "fs";
 import crypto from "crypto";
+import * as path from 'path';
+import * as admin from 'firebase-admin';
+import { sendEmail } from '../utils/email';
 
-require('dotenv').config({ path: path.join(__dirname, '../.env') });
-
-let app;
-let serviceAccount;
-if (process.env.FIREBASE_SERVICE_ACCOUNT) {
-  serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
-} else {
-  const keyPath = path.join(__dirname, '../serviceAccountKey.json');
-  if (fs.existsSync(keyPath)) {
-    serviceAccount = require(keyPath);
-  } else {
-    console.error('Error: serviceAccountKey.json not found and FIREBASE_SERVICE_ACCOUNT env var not set');
-    process.exit(1);
-  }
-}
-// инициализируем только один раз
 if (!admin.apps.length) {
-  app = admin.initializeApp({
-    credential: JSON.parse(serviceAccount)||'',
-    databaseURL: process.env.FIREBASE_DATABASE_URL,
+  const serviceAccountPath = path.join(__dirname, '../../travel-smart/serviceAccountKey.json');
+  const serviceAccount = require(serviceAccountPath);
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: process.env.FIREBASE_DATABASE_URL
   });
-} else {
-  app = admin.app();
 }
 
 const db = admin.database();
@@ -61,7 +44,6 @@ export const handleProduct = async (productId: string, customerEmail: string) =>
       lastPaymentDate: date.toISOString(),
       daysPaid: daysPaid + 30
   }
-
 
   ref
   .set(dataToWrite)
