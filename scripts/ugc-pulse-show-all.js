@@ -57,7 +57,7 @@ async function main() {
       updates[`${key}/daysLeft`] = newDaysLeft;
 
       let sent = value.sent || '';
-      if (newDaysLeft < 0 && !value.sent) {
+      if (newDaysLeft < 4 && !sent) {
         console.warn(
             `⚠️ User ${key} has negative daysLeft (${newDaysLeft}). Consider checking their data.`);
 
@@ -75,10 +75,10 @@ async function main() {
           С Уважением,
           Команда Svethappy
 `;
-        console.log("[SKIPPED] Sending email to:", value.userID, "with body:", body);
-       // await sendEmail('Svethappy <svethappy3@gmail.com>', value.userID, 'UGC Pulse', body);
-        //updates[`${key}/sent`] = today;
-        //sent = today
+        // console.log("[SKIPPED] Sending email to:", value.userID, "with body:", body);
+       await sendEmail('Svethappy <svethappy3@gmail.com>', value.userID, 'UGC Pulse', body);
+        updates[`${key}/sent`] = today;
+        sent = today
       }
 
       listRaw.push({
