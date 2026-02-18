@@ -1,5 +1,7 @@
 // prod_TLoPLmbyPJkGOK.js
-const {getRef,sendEmail,keyFromUserId,cr} = require('../../src/utils/common');
+const {getRef,sendEmail} = require('../../src/utils/common');
+const { keyFromUserId } = require('../../src/utils/utils');
+const {parseDMY, calcDaysFrom} = require("../utils/utils");
 
 async function handleProduct(productId, customerEmail) {
   console.log('Клуб создателей контента - дополнительный месяц ' + customerEmail);
@@ -11,16 +13,19 @@ async function handleProduct(productId, customerEmail) {
   const ref = getRef('ugc-pulse/' + id);
 
   // читаем текущее daysPaid
-
+  const date = new Date();
   const snapshot = await ref.once('value');
   const userData = snapshot.val();
   const daysPaid = Number(userData.daysPaid) || 0;
+  const lastPaymentDate = parseDMY(userData.lastPaymentDate);
+  let daysFrom = calcDaysFrom(lastPaymentDate );
+  console.log("Extra month purchase. Current daysPaid:", daysPaid, "lastPaymentDate:", lastPaymentDate, "daysFrom:", daysFrom);
 
-  const date = new Date();
+
   const dataToWrite = {
     userID: customerEmail,
     lastPaymentDate: date.toISOString(),
-    daysPaid: daysPaid + 30,
+    daysPaid: daysFrom<1 ? daysPaid + 30  : 30, // если с момента последнего платежа прошло меньше дня, то просто добавляем 30 дней, иначе перезаписываем на 30 дней
     tariff: userData.tariff,
     sent: ''
   };

@@ -1,41 +1,13 @@
 // read-ugc-pulse-sorted.js
-const {getRef,sendEmail,extractNumber} = require('../src/utils/common');
+const {getRef,sendEmail} = require('../src/utils/common');
+const {extractNumber,calcDaysFrom} = require('../src/utils/utils');
 const ref = getRef('ugc-pulse');
 
-const today = new Date();
 
-// парсер даты формата dd.MM.yyyy → Date
-function parseDMY(dateStr) {
-  if (!dateStr) {
-    return null;
-  }
-
-  try {
-    const [d, m, y] = dateStr.split('.').map((p) => parseInt(p, 10));
-    if (!d || !m || !y) {
-      return new Date(dateStr)
-    }
-
-    return new Date(y, m - 1, d);
-  } catch (err) {
-    console.warn('Failed to parse date:', dateStr, err);
-    return new Date(dateStr)
-  }
-}
-
-// разница в днях (today - lastPayment)
-function calcDaysFrom(lastPaymentStr) {
-  const d = parseDMY(lastPaymentStr);
-  if (!d) {
-    return 0;
-  }
-
-  const ms = today.getTime() - d.getTime();
-  return Math.floor(ms / (1000 * 60 * 60 * 24)); // [web:77]
-}
 
 async function main() {
   try {
+    const today = new Date();
     const snap = await ref.once('value');
     const data = snap.val() || {};
 

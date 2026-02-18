@@ -1,5 +1,6 @@
 // products/prod_TLoPLmbyPJkGOK.js
-const { sendEmail, getRef, keyFromUserId } = require('../../src/utils/common');
+const { sendEmail, getRef } = require('../../src/utils/common');
+const { keyFromUserId } = require('../../src/utils/utils');
 
 async function handleProduct(productId, customerEmail) {
   // UGC Pulse

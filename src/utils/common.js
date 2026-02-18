@@ -1,7 +1,7 @@
 
 // firebase.js
 const admin = require('firebase-admin');
-const crypto = require('crypto');
+
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '../../.env') });
 const { sendEmail } = require('./email');
@@ -26,23 +26,10 @@ const db = admin.database();
 function getRef(pathInDb) {
   return db.ref(pathInDb);
 }
-function keyFromUserId(userID) {
-  return crypto.createHash('sha256').update(userID || 'no-id', 'utf8').digest('hex');
-}
-function extractNumber(str) {
-  if (str == null) return null;
 
-  // Ищем первую последовательность цифр (возможно с точкой/запятой)
-  const match = String(str).match(/[-+]?\d*[\.,]?\d+/);
-  if (!match) return null;
-
-  // Заменяем запятую на точку и парсим
-  const num = parseFloat(match[0].replace(',', '.'));
-  return Number.isNaN(num) ? null : num;
-}
 module.exports = {
   admin,
   db,
   getRef,
-  sendEmail, keyFromUserId,extractNumber
+  sendEmail
 };
