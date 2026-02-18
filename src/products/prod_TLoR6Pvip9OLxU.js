@@ -23,7 +23,7 @@ async function handleProduct(productId, customerEmail) {
 
   const originalDaysPaid = Number( userData.daysPaid || 0);
   const daysPassed = calcDaysFrom(userData.lastPaymentDate);
-  const newDaysLeft = originalDaysPaid - daysPassed;
+  const newDaysLeft = Math.max(0,originalDaysPaid - daysPassed);
 
   userData.lastPaymentDate = date.toISOString();
   userData.daysPaid = newDaysLeft + 30; // добавляем 30 дней к оставшимся дням
