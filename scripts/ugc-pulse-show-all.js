@@ -1,6 +1,6 @@
 // read-ugc-pulse-sorted.js
 const {getRef} = require('./common');
-const {sendEmail} = require("../dist/utils/email");
+const {sendEmail} = require("../src/utils/email");
 const ref = getRef('ugc-pulse');
 
 const today = new Date();
@@ -103,6 +103,7 @@ async function main() {
 
 // 4) готовим данные для табличного вывода
     const list = listRaw.map((u, idx) => ({
+      key: u.key,
       userID: u.userID || u.userId || '',
       //firstName: u.Firstname || u.firstName || u['First name'] || '',
       //lastName: u.lastname || '',
