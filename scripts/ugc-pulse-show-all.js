@@ -136,6 +136,23 @@ async function main() {
 
       }
 
+      let deleted = 'Deleted';
+      if(newDaysLeft < 0 && sent!==deleted) {
+        console.warn(`Deleting User ${value.userID}`);
+        const ugcPulseChatId = -1002906638589;
+        const ugcPulseId = -1002913124875;
+        banUser(ugcPulseChatId, value.telegramID)
+        banUser(ugcPulseId, value.telegramID)
+        updates[`${key}/sent`] = deleted;
+        const body = `
+        Ваша подписка в клуб «UGC Pulse» закончилась!
+        
+        Для возобновления просим писать на email <a href="mailto:svethappy3@gmail.com">svethappy3@gmail.com</a>
+        `;
+
+        await sendEmail('Svethappy <svethappy3@gmail.com>', value.userID, 'UGC Pulse', body);
+      }
+
       listRaw.push({
         key,
         ...value,
@@ -184,6 +201,18 @@ async function main() {
   } catch (err) {
     console.error('Error:', err);
     process.exit(1);
+  }
+}
+
+async function banUser(groupId, userId) {
+  const botToken = process.env.TGBOT_TOKEN;
+  const url = `https://api.telegram.org/bot${botToken}/banChatMember?chat_id=${groupId}&user_id=${userId}`;
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    console.log(`kickChatMember: group=${groupId} user=${userId} result=`, data);
+  } catch (e) {
+    console.error(`Ошибка удаления user ${userId} из group ${groupId}:`, e);
   }
 }
 
