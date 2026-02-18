@@ -2,7 +2,7 @@
   "name": "stripe-webhooks-sample",
   "version": "1.0.0",
   "description": "Simple Node app to accept Stripe webhooks",
-  "main": "server.js",
+  "main": "src/server/server.js",
   "scripts": {
     "start:prod": "node src/server/server.js",
     "test": "jest --detectOpenHandles",
