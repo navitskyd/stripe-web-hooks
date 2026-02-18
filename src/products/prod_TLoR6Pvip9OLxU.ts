@@ -2,13 +2,19 @@ import crypto from "crypto";
 import * as path from 'path';
 import * as admin from 'firebase-admin';
 import { sendEmail } from '../utils/email';
+import { ServiceAccount} from "firebase-admin";
 
 if (!admin.apps.length) {
-  let firebaseserviceaccount = process.env.FIREBASE_SERVICE_ACCOUNT || '';
-  console.log(firebaseserviceaccount)
+  const serviceAccountJson = process.env.FIREBASE_SERVICE_ACCOUNT;
+  if (!serviceAccountJson) {
+    throw new Error('FIREBASE_SERVICE_ACCOUNT is not set');
+  }
+
+  const serviceAccount = JSON.parse(serviceAccountJson) as ServiceAccount;
+
   admin.initializeApp({
-    credential: admin.credential.cert(firebaseserviceaccount),
-    databaseURL: process.env.FIREBASE_DATABASE_URL
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: process.env.FIREBASE_DATABASE_URL,
   });
 }
 
