@@ -92,13 +92,16 @@ async function main() {
             `⚠️ User ${key} has negative daysLeft (${newDaysLeft}). Consider checking their data.`);
 
         if(tariff===0 || tariff===15) {
+
+
+
           const body = `
           Здравствуйте!
           
           Ваша подписка на UGC Club от Svethappy истекла или скоро истекает!
           
-          Для вас последний звонок - возможность оплаты по цене 15 EUR!
-          Ссылка действует 24 часа.
+          Для вас возможность оплаты по цене 15 EUR!
+          Предложение действует только до окончания вашей текущей подписки.
           
           https://buy.stripe.com/7sY6oI2vr2TKbdwgw78og05?locale=ru
           
@@ -173,6 +176,7 @@ async function main() {
       daysPaid: u.dayspaid || u.daysPaid || '',
       tariff: '€'+u.tariff,
       sent: u.sent || '',
+      notes: u.notes || '',
     }));
 
     console.table(list);
