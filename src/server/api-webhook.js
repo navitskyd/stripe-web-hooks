@@ -38,7 +38,7 @@ async function processCheckoutSession(session) {
       // Попытка загрузить и вызвать обработчик продукта
       if (productId) {
         try {
-          const handlerPath = path.join(__dirname, 'dist', 'products', `${productId}.js`);
+          const handlerPath = path.join(__dirname, '..', 'products', `${productId}.js`);
           if (fs.existsSync(handlerPath)) {
             const handler = require(handlerPath);
             if (handler.handleProduct && typeof handler.handleProduct === 'function') {

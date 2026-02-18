@@ -1,5 +1,5 @@
 {
-	"date": "2026-02-18 12:39:17 WET",
-	"comment": "move to develop",
-	"version": "1.18.0"
+	"date": "2026-02-18 12:41:58 WET",
+	"comment": "fix path to handlers",
+	"version": "1.19.0"
 }
