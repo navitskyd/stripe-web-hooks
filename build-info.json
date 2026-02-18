@@ -1,5 +1,5 @@
 {
-	"date": "2026-02-18 15:08:20 WET",
-	"comment": "change email reminder setting",
-	"version": "1.24.0"
+	"date": "2026-02-18 15:14:40 WET",
+	"comment": "send another email if tariff differs",
+	"version": "1.25.0"
 }

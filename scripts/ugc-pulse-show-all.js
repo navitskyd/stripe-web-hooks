@@ -79,6 +79,26 @@ async function main() {
           await sendEmail('Svethappy <svethappy3@gmail.com>', value.userID, 'UGC Pulse', body);
           updates[`${key}/sent`] = today;
           sent = today
+        } else if (tariff===30){
+          const body = `
+          Здравствуйте!
+          
+          Ваша подписка на UGC Club от Svethappy истекла или скоро истекает!
+          
+          Чтобы продлить доступ к клубу, оплатите по ссылке ниже.
+          Если вы оформляете второй месяц за €15, то все последующие месяцы до сентября 2026 года вы также получаете по цене €15 в месяц.
+          
+          https://buy.stripe.com/fZueVeda51PG95o93F8og00?locale=ru
+          
+          Спасибо!
+          С Уважением,
+          Команда Svethappy
+`;
+          await sendEmail('Svethappy <svethappy3@gmail.com>', value.userID, 'UGC Pulse', body);
+          updates[`${key}/sent`] = today;
+          sent = today
+        } else {
+          console.warn(`Unknown tariff ${tariff} for user ${key}, skipping email.`);
         }
 
       }
