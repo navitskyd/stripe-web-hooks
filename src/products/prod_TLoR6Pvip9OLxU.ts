@@ -1,7 +1,6 @@
 import crypto from "crypto";
-import * as path from 'path';
 import * as admin from 'firebase-admin';
-import { sendEmail } from '../utils/email';
+import {sendEmail} from "../utils/email";
 import { ServiceAccount} from "firebase-admin";
 
 if (!admin.apps.length) {
@@ -42,7 +41,7 @@ export const handleProduct = async (productId: string, customerEmail: string) =>
   let id = keyFromUserId(customerEmail);
   const ref = getRef('ugc-pulse/' + id);
   const snap = await ref.child('daysPaid').once('value'); // или ref.once('value') и потом snap.val().daysPaid
-  const daysPaid = snap.val() || 0;
+  const daysPaid = Number(snap.val()) || 0;
 
   let date = new Date();
   const dataToWrite = {
