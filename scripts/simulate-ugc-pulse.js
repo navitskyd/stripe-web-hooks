@@ -26,7 +26,7 @@ async function main(productId, customerEmail) {
 //  .then(()=> main('prod_TLoR6Pvip9OLxU', 'dnavitski@gmail.com').catch(console.error));
 
 // main('prod_TLoPLmbyPJkGOK', 'dnavitski@gmail.com').catch(console.error)
-main('prod_TLoR6Pvip9OLxU', 'dnavitski@gmail.com').catch(console.error)
+main('prod_TLoR6Pvip9OLxU', 'katloverusakovich@gmail.com').catch(console.error)
 
 // main('prod_TqQ0yWcDioH90x', 'dnavitski@gmail.com').catch(console.error);
 // main('prod_Tw7UBkg0EBa9A0', 'dnavitski@gmail.com').catch(console.error);

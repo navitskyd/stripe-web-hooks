@@ -185,7 +185,7 @@ async function main() {
       userID: u.userID || '',
       lastPaymentDate: u.lastPaymentDate || '',
       telegramID: u.telegramID ||  '',
-      telegramNickname: u.telegramNickname  || '',
+     // telegramNickname: u.telegramNickname  || '',
      // phone: u.phone || '',
      //  firstName: u.firstName || '',
      //  lastName: u.lastName || '',

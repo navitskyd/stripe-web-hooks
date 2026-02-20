@@ -5,6 +5,7 @@ const cors = require('cors');
 const Stripe = require('stripe');
 
 const stripe = Stripe(process.env.STRIPE_SECRET);
+console.log(process.env.STRIPE_SECRET);
 
 const setupPromoRoutes = (app) => {
 
