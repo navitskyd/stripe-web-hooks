@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for stripe-web-hooks on 2026-02-13T10:55:27Z
+# fly.toml app configuration file generated for stripe-web-hooks-crimson-log-4824 on 2026-02-20T22:50:54Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'stripe-web-hooks'
+app = 'stripe-web-hooks-crimson-log-4824'
 primary_region = 'fra'
 
 [build]

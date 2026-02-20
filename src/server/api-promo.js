@@ -5,7 +5,6 @@ const cors = require('cors');
 const Stripe = require('stripe');
 
 const stripe = Stripe(process.env.STRIPE_SECRET);
-console.log(process.env.STRIPE_SECRET);
 
 const setupPromoRoutes = (app) => {
 
@@ -49,6 +48,7 @@ const setupPromoRoutes = (app) => {
                 ? promoCodes.data[promoCodes.data.length - 1].id : undefined;
           } while (starting_after);
           if (found) {
+            console.log(process.env.STRIPE_SECRET);
             return res.status(409).json({message: 'Already exists'});
           }
           // Not found, create a new promo code (or just return 201 for demo)
