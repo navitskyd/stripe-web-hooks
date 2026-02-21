@@ -1,5 +1,5 @@
 const cors = require('cors');
-const {admin, sendEmail} = require('../utils/common');
+const {sendEmail, getRef} = require('../utils/common');
 
 const setupTravelRoutes = (app) => {
     // Endpoint to clear the in-memory user cache
@@ -164,7 +164,15 @@ ${lessonUrl}
                 body
             );
 
-            return res.json({message: 'Free lesson email sent successfully'});
+            // Save to Firebase under 'travel-free-lessons'
+            const freeLessonsRef = getRef('travel-free-lessons');
+            await freeLessonsRef.push({
+                email: email,
+                lessonUrl: lessonUrl,
+                sentAt: new Date().toISOString()
+            });
+
+            return res.status(201).json({message: 'Free lesson email sent successfully'});
 
         }
     );
