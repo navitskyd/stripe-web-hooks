@@ -164,6 +164,8 @@ ${lessonUrl}
                 body
             );
 
+            return res.json({message: 'Free lesson email sent successfully'});
+
         }
     );
 };
