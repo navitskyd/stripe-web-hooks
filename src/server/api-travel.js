@@ -97,6 +97,7 @@ const setupTravelRoutes = (app) => {
         res.json({message: 'User cache cleared'});
     });
     app.options('/travel', cors({origin: '*', methods: ['POST']})); // preflight
+    app.options('/travel/free-lesson', cors({origin: '*', methods: ['POST']})); // preflight
 
     // --- Endpoint for Travel-smart  ---
     app.post(
