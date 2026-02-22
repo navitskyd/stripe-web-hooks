@@ -1,4 +1,4 @@
-require('../../src/utils/common')
+const {db,admin,path,fs} = require('../../src/utils/common')
 
 async function backupAndRestore() {
   try {
@@ -17,7 +17,7 @@ async function backupAndRestore() {
     }
 
     // Restore from latest JSON files in firebase folder
-    const firebaseDir = path.join(__dirname, '../firebase');
+    const firebaseDir = path.join(__dirname, 'firebase');
     let lessonsFile = null, usersFile = null;
     if (fs.existsSync(firebaseDir)) {
       const files = fs.readdirSync(firebaseDir);

@@ -1,6 +1,6 @@
 {
-  "Anetta555@yandex,ru": {
-    "email": "Anetta555@yandex.ru",
+  "anetta555@yandex,ru": {
+    "email": "anetta555@yandex.ru",
     "stream": "stream2"
   },
   "al79ka90@gmail,com": {
@@ -26,11 +26,6 @@
   "bussyaka@tut,by": {
     "email": "bussyaka@tut.by",
     "stream": "stream2"
-  },
-  "d351962787079@gmail,com": {
-    "email": "d351962787079@gmail.com",
-    "stream": "webinar",
-    "tags": "webinar"
   },
   "devochka_tanya@tut,by": {
     "email": "devochka_tanya@tut.by",
@@ -211,8 +206,8 @@
   },
   "olalaa2808@mail,ru": {
     "email": "olalaa2808@mail.ru",
-    "stream": "webinar",
-    "tags": "webinar"
+    "stream": "webinar,novice",
+    "tags": "webinar,novice"
   },
   "olialazareva3@gmail,com": {
     "email": "olialazareva3@gmail.com",
