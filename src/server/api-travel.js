@@ -51,7 +51,7 @@ const setupTravelRoutes = (app) => {
 
     async function getUserAndLessons(admin, email) {
         // Firebase keys can't have '.' so replace with ','
-        const lookupKey = email.replace(/\./g, ',');
+        const lookupKey = email.replace(/\./g, ',').toLowerCase();
         let cacheEntry = userCache[lookupKey];
         let user, matchedLessons;
         const now = Date.now();
