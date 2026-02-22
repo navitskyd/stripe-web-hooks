@@ -26,11 +26,12 @@ async function main(productId, customerEmail) {
 //  .then(()=> main('prod_TLoR6Pvip9OLxU', 'dnavitski@gmail.com').catch(console.error));
 
 // main('prod_TLoPLmbyPJkGOK', 'dnavitski@gmail.com').catch(console.error)
-main('prod_TLoR6Pvip9OLxU', 'katloverusakovich@gmail.com').catch(console.error)
+// main('prod_TLoR6Pvip9OLxU', 'katloverusakovich@gmail.com').catch(console.error)
 
 // main('prod_TqQ0yWcDioH90x', 'dnavitski@gmail.com').catch(console.error);
 // main('prod_Tw7UBkg0EBa9A0', 'dnavitski@gmail.com').catch(console.error);
 // main('prod_Tw7Wukp1CIRUU9', 'dnavitski@gmail.com').catch(console.error);
 // main('prod_Tx8BAeTMqW42GP', 'dnavitski@gmail.com').catch(console.error);
 // main('prod_Tx89OR3aYHSh1n', 'dnavitski@gmail.com').catch(console.error);
+main('prod_U1eH8b9MCSshmu', 'dnavitski@gmail.com').catch(console.error);
 
