@@ -40,7 +40,16 @@ async function handleProduct(productId, customerEmail) {
 
   const body = `
     Дополнительный месяц подписки в клуб «UGC Pulse» оплачен!
-    
+
+    Заходите сюда ⬇️ 
+
+    https://t.me/+8Jz7SAhhFDNiZTFi
+
+    Обязательно присоединяйтесь во второй чат - для вопросов и обратной связи от Светланы лично
+
+    https://t.me/+SLp3Vox-kMNjZGVi
+  
+
     По техническим вопросам можно писать на email <a href="mailto:svethappy3@gmail.com">svethappy3@gmail.com</a>
 `;
 
