@@ -1,7 +1,6 @@
 
 // Гайд по Стамбулу: "Готовое путешествие"
 const { sendEmail } = require('../utils/common');
-const { createInviteLink } = require('../utils/utils');
 
 async function handleProduct(productId, customerEmail) {
 
