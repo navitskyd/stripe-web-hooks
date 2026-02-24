@@ -1,9 +1,0 @@
-{
-  "crons": [
-    {
-      "path": "/promo-check",
-      "schedule": "*/30 * * * *"
-    }
-  ]
-}
-
