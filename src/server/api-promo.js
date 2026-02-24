@@ -105,10 +105,11 @@ https://svetahappy.web.app/travel/
         const promoCodes = await stripe.promotionCodes.list(params);
         
         for (const promo of promoCodes.data) {
-          // Check if promo code expires within 3 hours
+          // Check if promo code expires within 3 hours and reminder not already sent
           if (promo.expires_at && promo.expires_at > now && promo.expires_at <= threeHoursFromNow) {
             const email = promo.metadata?.email;
-            if (email) {
+            const reminderSent = promo.metadata?.reminder;
+            if (email && !reminderSent) {
               expiringPromos.push({
                 id: promo.id,
                 code: promo.code,
@@ -130,7 +131,7 @@ https://svetahappy.web.app/travel/
         
         const body = `Здравствуйте!
 
-Напоминаем, что ваш промокод <b>${promo.code}</b> для получения скидки 15% истекает через ${hoursLeft} ч.
+Напоминаем, что ваш промокод <b>${promo.code}</b> для получения скидки 15% истекает менее чем через 2 часа.
 
 Не упустите возможность воспользоваться скидкой!
 
@@ -147,6 +148,13 @@ https://svetahappy.web.app/travel/
             `Напоминание: ваш промокод скоро истекает! [${promo.email}]`,
             body
           );
+          
+          // Mark promo code with reminder date to avoid duplicate emails
+          const currentDate = new Date().toISOString();
+          await stripe.promotionCodes.update(promo.id, {
+            metadata: { email: promo.email, reminder: currentDate }
+          });
+          
           emailResults.push({ email: promo.email, code: promo.code, status: 'sent' });
         } catch (emailErr) {
           console.error(`Failed to send reminder to ${promo.email}:`, emailErr);
