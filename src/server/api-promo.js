@@ -5,6 +5,7 @@ const cors = require('cors');
 const Stripe = require('stripe');
 
 const stripe = Stripe(process.env.STRIPE_SECRET);
+const couponId = 'qSm8E9pd'; // ID купона, который нужно использовать для всех промокодов
 
 const setupPromoRoutes = (app) => {
 
@@ -24,11 +25,10 @@ const setupPromoRoutes = (app) => {
           return res.status(400).json({error: 'Email is required'});
         }
         try {
-          // List all promo codes for coupon 'qSm8E9pd' and check metadata.email
           let found = false;
           let starting_after = undefined;
           do {
-            const params = {coupon: 'qSm8E9pd', limit: 100};
+            const params = {coupon: couponId, limit: 100};
             if (starting_after) {
               params.starting_after = starting_after;
             }
@@ -51,9 +51,7 @@ const setupPromoRoutes = (app) => {
             //console.log(process.env.STRIPE_SECRET);
             return res.status(409).json({message: 'Already exists'});
           }
-          // Not found, create a new promo code (or just return 201 for demo)
-
-          const couponId = 'qSm8E9pd';
+        
           const expiresAt = Math.floor(Date.now() / 1000) + 26 * 60 * 60; // 24 hours from now
 
           const newPromo = await stripe.promotionCodes.create({
@@ -87,6 +85,84 @@ https://svetahappy.web.app/travel/
           return res.status(500).json({error: 'Internal server error'});
         }
       });
+
+  // Endpoint to check for expiring promo codes (within 3 hours) and send reminder emails
+  app.get('/promo-check', async (req, res) => {
+    try {
+      const now = Math.floor(Date.now() / 1000);
+      const threeHoursFromNow = now + 3 * 60 * 60;
+      
+      const expiringPromos = [];
+      let starting_after = undefined;
+      
+      // Fetch all promotion codes and filter those expiring within 3 hours
+      do {
+        const params = { limit: 100, active: true,coupon: couponId };
+        if (starting_after) {
+          params.starting_after = starting_after;
+        }
+        
+        const promoCodes = await stripe.promotionCodes.list(params);
+        
+        for (const promo of promoCodes.data) {
+          // Check if promo code expires within 3 hours
+          if (promo.expires_at && promo.expires_at > now && promo.expires_at <= threeHoursFromNow) {
+            const email = promo.metadata?.email;
+            if (email) {
+              expiringPromos.push({
+                id: promo.id,
+                code: promo.code,
+                email: email,
+                expires_at: promo.expires_at
+              });
+            }
+          }
+        }
+        
+        starting_after = promoCodes.data.length
+            ? promoCodes.data[promoCodes.data.length - 1].id : undefined;
+      } while (starting_after);
+      
+      // Send reminder emails to customers with expiring promo codes
+      const emailResults = [];
+      for (const promo of expiringPromos) {
+        const hoursLeft = Math.round((promo.expires_at - now) / 3600 * 10) / 10;
+        
+        const body = `Здравствуйте!
+
+Напоминаем, что ваш промокод <b>${promo.code}</b> для получения скидки 15% истекает через ${hoursLeft} ч.
+
+Не упустите возможность воспользоваться скидкой!
+
+Все актуальные предложения вы можете найти по ссылке:
+https://svetahappy.web.app/travel/
+
+По техническим вопросам можно писать на email <a href="mailto:svethappy3@gmail.com">svethappy3@gmail.com</a>`;
+
+        try {
+          await sendEmail(
+            'Школа «Путешествуй сам» <svethappy3@gmail.com>',
+            //promo.email,
+            'dnavitski@gmail.com',
+            `Напоминание: ваш промокод скоро истекает! [${promo.email}]`,
+            body
+          );
+          emailResults.push({ email: promo.email, code: promo.code, status: 'sent' });
+        } catch (emailErr) {
+          console.error(`Failed to send reminder to ${promo.email}:`, emailErr);
+          emailResults.push({ email: promo.email, code: promo.code, status: 'failed', error: emailErr.message });
+        }
+      }
+      
+      return res.status(200).json({
+        checked: expiringPromos.length,
+        results: emailResults
+      });
+    } catch (err) {
+      console.error('Promo check error:', err);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+  });
 };
 
 module.exports = {setupPromoRoutes};
