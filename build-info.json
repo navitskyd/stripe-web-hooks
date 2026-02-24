@@ -1,5 +1,5 @@
 {
-	"date": "2026-02-24 20:10:53 WET",
-	"comment": "add reminder email for expiring promo",
-	"version": "1.43.0"
+	"date": "2026-02-24 20:22:31 WET",
+	"comment": "add cron",
+	"version": "1.44.0"
 }
