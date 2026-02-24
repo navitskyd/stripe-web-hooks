@@ -1,5 +1,5 @@
 const cors = require('cors');
-const {sendEmail, getRef} = require('../utils/common');
+const {sendEmail, getRef,admin} = require('../utils/common');
 
 const setupTravelRoutes = (app) => {
     // Endpoint to clear the in-memory user cache
@@ -37,7 +37,7 @@ const setupTravelRoutes = (app) => {
         return authHeader.split(' ')[1];
     }
 
-    async function verifyTokenAndGetEmail(admin, idToken) {
+    async function verifyTokenAndGetEmail(idToken) {
         try {
             const decodedToken = await admin.auth().verifyIdToken(idToken);
             if (!decodedToken.email) {
@@ -49,7 +49,7 @@ const setupTravelRoutes = (app) => {
         }
     }
 
-    async function getUserAndLessons(admin, email) {
+    async function getUserAndLessons(email) {
         // Firebase keys can't have '.' so replace with ','
         const lookupKey = email.replace(/\./g, ',').toLowerCase();
         let cacheEntry = userCache[lookupKey];
@@ -115,12 +115,12 @@ const setupTravelRoutes = (app) => {
 
             let email;
             try {
-                email = await verifyTokenAndGetEmail(admin, idToken);
+                email = await verifyTokenAndGetEmail(idToken);
             } catch (err) {
                 return res.status(401).json({error: err.message});
             }
             try {
-                const {user, lessons} = await getUserAndLessons(admin, email);
+                const {user, lessons} = await getUserAndLessons(email);
                 return res.json({user, lessons});
             } catch (err) {
                 if (err.message === 'User not found') {
