@@ -143,9 +143,9 @@ https://svetahappy.web.app/travel/
         try {
           await sendEmail(
             'Школа «Путешествуй сам» <svethappy3@gmail.com>',
-            //promo.email,
-            'dnavitski@gmail.com',
-            `Напоминание: ваш промокод скоро истекает! [${promo.email}]`,
+            promo.email,
+            //'dnavitski@gmail.com',
+            `Напоминание: ваш промокод скоро истекает!`,
             body
           );
           
