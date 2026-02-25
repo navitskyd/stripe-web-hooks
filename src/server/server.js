@@ -3,6 +3,7 @@ const express = require('express');
 const { setupWebhookRoutes } = require('./api-webhook');
 const { setupPromoRoutes } = require('./api-promo');
 const { setupTravelRoutes } = require('./api-travel');
+const { setupUgcRoutes } = require('./api-ugc');
 const fs = require('fs');
 const path = require('path');
 
@@ -31,6 +32,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 setupPromoRoutes(app);
 setupTravelRoutes(app);
+setupUgcRoutes(app);
 
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
