@@ -33,5 +33,5 @@ async function main(productId, customerEmail) {
 // main('prod_Tw7Wukp1CIRUU9', 'dnavitski@gmail.com').catch(console.error);
 // main('prod_Tx8BAeTMqW42GP', 'dnavitski@gmail.com').catch(console.error);
 // main('prod_Tx89OR3aYHSh1n', 'dnavitski@gmail.com').catch(console.error);
-main('prod_U1eH8b9MCSshmu', 'mezhennaya@mail.ru').catch(console.error);
+main('prod_TravelStream2.js', 'dnavitski@gmail.com').catch(console.error);
 
