@@ -13,10 +13,12 @@ async function handleProduct(productId, customerEmail) {
 
     https://drive.google.com/file/d/1rZmFf1-aNBvp9bqF827sekPA6syjjqq2/view?usp=sharing
 
+    Приятного изучения и вдохновения!
+
     По техническим вопросам можно писать на email <a href="mailto:svethappy3@gmail.com">svethappy3@gmail.com</a>
 `
 
-  await sendEmail('Svethappy <svethappy3@gmail.com>', customerEmail, 'Готовое путешествие: Стамбул', body);
+  await sendEmail('Svethappy <svethappy3@gmail.com>', customerEmail, 'UGC Креатор: что это, с чего начать, как зарабатывать', body);
 }
 
 module.exports = {
