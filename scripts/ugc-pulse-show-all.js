@@ -59,7 +59,6 @@ function getRawDB(){
 async function main() {
    const dbRaw = getRawDB()
   try {
-    const today = new Date();
     const snap = await ref.once('value');
     const data = snap.val() || {};
 
@@ -69,88 +68,14 @@ async function main() {
 
     for (const [key, value] of Object.entries(data)) {
       const lastPaymentDate = value.lastPaymentDate  || '';
-
-      // у тебя в данных daysLeft = оплаченные дни - прошедшие
       const originalDaysPaid = Number( value.daysPaid || 0);
       const daysPassed = calcDaysFrom(lastPaymentDate);
-
       const newDaysLeft = originalDaysPaid - daysPassed;
-      let tariff = extractNumber(value.tariff) || 15; // по умолчанию 15 евро, если не указано
-
-      // const toFill = 'telegramNickname'
-      // if(dbRaw[key] && dbRaw[key][toFill]!==value[toFill]) {
-      //    console.warn(`⚠️ ${toFill} mismatch for user ${key}. DB has ${dbRaw[key][toFill]}, but ugc-pulse has ${value[toFill]}. Consider checking their data.`);
-      //    updates[`${key}/${toFill}`]=dbRaw[key][toFill];
-      // }
-
-      updates[`${key}/daysLeft`] = newDaysLeft;
-      updates[`${key}/tariff`] = tariff;
 
       let sent = value.sent || '';
       if (newDaysLeft < 4 && !sent) {
         console.warn(
             `⚠️ User ${key} has negative daysLeft (${newDaysLeft}). Consider checking their data.`);
-
-        if(tariff===0 || tariff===15) {
-
-
-
-          const body = `
-          Здравствуйте!
-          
-          Ваша подписка на UGC Club от Svethappy истекла или скоро истекает!
-          
-          Для вас возможность оплаты по цене 15 EUR!
-          Предложение действует только до окончания вашей текущей подписки.
-          
-          https://buy.stripe.com/7sY6oI2vr2TKbdwgw78og05?locale=ru
-          
-          Спасибо!
-          С Уважением,
-          Команда Svethappy
-`;
-          await sendEmail('Svethappy <svethappy3@gmail.com>', value.userID, 'UGC Pulse', body);
-          updates[`${key}/sent`] = today;
-          sent = today
-        } else if (tariff===30){
-          const body = `
-          Здравствуйте!
-          
-          Ваша подписка на UGC Club от Svethappy истекла или скоро истекает!
-          
-          Чтобы продлить доступ к клубу, оплатите по ссылке ниже.
-          Если вы оформляете второй месяц за €15, то все последующие месяцы до сентября 2026 года вы также получаете по цене €15 в месяц.
-          
-          https://buy.stripe.com/fZueVeda51PG95o93F8og00?locale=ru
-          
-          Спасибо!
-          С Уважением,
-          Команда Svethappy
-`;
-          await sendEmail('Svethappy <svethappy3@gmail.com>', value.userID, 'UGC Pulse', body);
-          updates[`${key}/sent`] = today;
-          sent = today
-        } else {
-          console.warn(`Unknown tariff ${tariff} for user ${key}, skipping email.`);
-        }
-
-      }
-
-      let deleted = 'Deleted';
-      if(newDaysLeft < 0 && sent!==deleted) {
-        console.warn(`Deleting User ${value.userID}`);
-        const ugcPulseChatId = -1002906638589;
-        const ugcPulseId = -1002913124875;
-        banUser(ugcPulseChatId, value.telegramID)
-        banUser(ugcPulseId, value.telegramID)
-        updates[`${key}/sent`] = deleted;
-        const body = `
-        Ваша подписка в клуб «UGC Pulse» закончилась!
-        
-        Для возобновления просим писать на email <a href="mailto:svethappy3@gmail.com">svethappy3@gmail.com</a>
-        `;
-
-        await sendEmail('Svethappy <svethappy3@gmail.com>', value.userID, 'UGC Pulse', body);
       }
 
       listRaw.push({
@@ -163,9 +88,6 @@ async function main() {
       });
     }
 
-    // 2) обновляем daysLeft в db
-    await ref.update(updates); // патч только поля daysLeft [web:80]
-
     // 3) сортируем по обновлённому daysLeft
     listRaw.sort((a, b) => {
       const da = Number(a.daysLeft) || 0;
@@ -173,11 +95,6 @@ async function main() {
       return dbb - da;
     });
 
-    // listRaw.sort((a, b) => {
-    //   const da = Number(a.tariff) || 0;
-    //   const dbb = Number(b.tariff) || 0;
-    //   return dbb - da;
-    // });
 
 // 4) готовим данные для табличного вывода
     const list = listRaw.map((u, idx) => ({
