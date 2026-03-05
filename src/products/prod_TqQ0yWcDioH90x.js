@@ -2,11 +2,10 @@
 const { sendEmail } = require('../utils/common');
 const { createInviteLink } = require('../utils/utils');
 
+const productTitle ='Курс по созданию качественного контента и развитию соц сетей';
+
 async function handleProduct(productId, customerEmail) {
-  console.log(
-      'Курс по созданию качественного контента и развитию соц сетей для ' +
-      customerEmail
-  );
+  console.log(productTitle+ ' для ' + customerEmail);
 
   const body = `
     Благодарим за оплату!
@@ -38,7 +37,7 @@ async function handleProduct(productId, customerEmail) {
   await sendEmail(
       'Svethappy <svethappy3@gmail.com>',
       customerEmail,
-      'Курс "Video&PhotoSvet"',
+      productTitle,
       personalizedBody
   );
 }

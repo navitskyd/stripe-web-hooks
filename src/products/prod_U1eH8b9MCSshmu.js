@@ -1,11 +1,11 @@
 
 // Гайд по Стамбулу: "Готовое путешествие"
 const { sendEmail } = require('../utils/common');
-
+const productTitle = 'Гайд по Стамбулу: "Готовое путешествие"';
 async function handleProduct(productId, customerEmail) {
 
 // Reels intensiv
-  console.log("Гайд по Стамбулу: \"Готовое путешествие\" для " + customerEmail);
+  console.log(productTitle + " для " + customerEmail);
 
   const body = `
     Благодарим за оплату!
@@ -17,7 +17,7 @@ async function handleProduct(productId, customerEmail) {
     По техническим вопросам можно писать на email <a href="mailto:svethappy3@gmail.com">svethappy3@gmail.com</a>
 `
 
-  await sendEmail('Svethappy <svethappy3@gmail.com>', customerEmail, 'Готовое путешествие: Стамбул', body);
+  await sendEmail('Svethappy <svethappy3@gmail.com>', customerEmail, productTitle, body);
 }
 
 module.exports = {

@@ -2,9 +2,11 @@
 const { sendEmail } = require('../utils/common');
 const { createInviteLink } = require('../utils/utils');
 
+const productTitle = 'Практикум по съемке UGC видео';
+
 async function handleProduct(productId, customerEmail) {
   // UGC Lab
-  console.log('Практикум по съемке UGC видео для ' + customerEmail);
+  console.log(productTitle + ' для ' + customerEmail);
 
   const body = `
 Благодарим за оплату!
@@ -30,7 +32,7 @@ async function handleProduct(productId, customerEmail) {
   await sendEmail(
       'Svethappy <svethappy3@gmail.com>',
       customerEmail,
-      'Практикум по съемке UGC видео"',
+      productTitle,
       personalizedBody
   );
 }

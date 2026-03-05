@@ -3,10 +3,12 @@
 const { sendEmail } = require('../utils/common');
 const { createInviteLink } = require('../utils/utils');
 
+const productTitle = 'Reels Интенсив';
+
 async function handleProduct(productId, customerEmail) {
 
 // Reels intensiv
-  console.log("Reels Интенсив для " + customerEmail);
+  console.log(productTitle + " для " + customerEmail);
 
   const body = `
     Благодарим за оплату!
@@ -29,7 +31,7 @@ async function handleProduct(productId, customerEmail) {
   const tgLink = await createInviteLink( "-1003807984282",customerEmail);
   const personalizedBody = body.replace('[TG_LINK]', tgLink);
 
-  await sendEmail('Svethappy <svethappy3@gmail.com>', customerEmail, 'Reels Интенсив"', personalizedBody);
+  await sendEmail('Svethappy <svethappy3@gmail.com>', customerEmail, productTitle, personalizedBody);
 }
 
 module.exports = {

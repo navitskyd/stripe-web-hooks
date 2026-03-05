@@ -2,9 +2,11 @@
 const { sendEmail, getRef } = require('../../src/utils/common');
 const { buildKey } = require('../../src/utils/utils');
 
+const productTitle = 'Клуб создателей контента - доступ 1 месяц';
+
 async function handleProduct(productId, customerEmail) {
   // UGC Pulse
-  console.log('Клуб создателей контента - доступ 1 месяц для ' + customerEmail);
+  console.log(productTitle + ' для ' + customerEmail);
 
   const ugcPulseChatId = -1002906638589; // сейчас не используется, можно оставить как справочное
   const ugcPulseId = -1002913124875;     // сейчас не используется, можно оставить как справочное
@@ -53,7 +55,7 @@ https://t.me/+SLp3Vox-kMNjZGVi
 По техническим вопросам можно писать на email <a href="mailto:svethappy3@gmail.com">svethappy3@gmail.com</a>
 `;
 
-  await sendEmail('Svethappy <svethappy3@gmail.com>', customerEmail, 'UGC Pulse', body);
+  await sendEmail('Svethappy <svethappy3@gmail.com>', customerEmail, productTitle, body);
 }
 
 module.exports = {
