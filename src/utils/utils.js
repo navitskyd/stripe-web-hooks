@@ -1,6 +1,5 @@
 // telegram.js
 const axios = require('axios');
-const crypto = require("crypto");
 // парсер даты формата dd.MM.yyyy → Date
 function parseDMY(dateStr) {
   if (!dateStr) {
@@ -62,9 +61,6 @@ function calcDaysFrom(lastPaymentStr) {
   const ms = today.getTime() - d.getTime();
   return Math.floor(ms / (1000 * 60 * 60 * 24)); // [web:77]
 }
-function keyFromUserId(userID) {
-  return crypto.createHash('sha256').update(userID || 'no-id', 'utf8').digest('hex');
-}
 
 function buildKey(email) {
   return email.replaceAll(/[@.]/g, '_');
@@ -83,5 +79,5 @@ function extractNumber(str) {
 }
 module.exports = {
   generatePassword,
-  createInviteLink,parseDMY,calcDaysFrom,keyFromUserId,extractNumber, buildKey
+  createInviteLink,parseDMY,calcDaysFrom,extractNumber, buildKey
 };

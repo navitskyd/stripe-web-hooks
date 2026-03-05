@@ -1,6 +1,6 @@
 // products/prod_TLoPLmbyPJkGOK.js
 const { sendEmail, getRef } = require('../../src/utils/common');
-const { keyFromUserId } = require('../../src/utils/utils');
+const { buildKey } = require('../../src/utils/utils');
 
 async function handleProduct(productId, customerEmail) {
   // UGC Pulse
@@ -9,7 +9,7 @@ async function handleProduct(productId, customerEmail) {
   const ugcPulseChatId = -1002906638589; // сейчас не используется, можно оставить как справочное
   const ugcPulseId = -1002913124875;     // сейчас не используется, можно оставить как справочное
 
-  const id = keyFromUserId(customerEmail);
+  const id = buildKey(customerEmail);
   const date = new Date();
 
   const dataToWrite = {

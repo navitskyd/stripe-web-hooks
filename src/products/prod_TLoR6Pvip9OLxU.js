@@ -1,6 +1,6 @@
 // prod_TLoPLmbyPJkGOK.js
 const {getRef,sendEmail} = require('../../src/utils/common');
-const { keyFromUserId } = require('../../src/utils/utils');
+const { buildKey } = require('../../src/utils/utils');
 const {parseDMY, calcDaysFrom} = require("../utils/utils");
 
 async function handleProduct(productId, customerEmail) {
@@ -9,7 +9,7 @@ async function handleProduct(productId, customerEmail) {
   const ugcPulseChatId = -1002906638589; // сейчас не используется, оставлено для совместимости
   const ugcPulseId = -1002913124875;     // сейчас не используется, оставлено для совместимости
 
-  const id = keyFromUserId(customerEmail);
+  const id = buildKey(customerEmail);
   const ref = getRef('ugc-pulse/' + id);
 
   // читаем текущее daysPaid
