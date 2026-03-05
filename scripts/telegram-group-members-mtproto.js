@@ -9,8 +9,8 @@ const fs = require('fs');
 const path = require('path');
 
 // Configuration - Get from https://my.telegram.org/apps
-const API_ID = parseInt(process.env.TELEGRAM_API_ID) || 0; // Your API ID
-const API_HASH = process.env.TELEGRAM_API_HASH || ''; // Your API Hash
+const API_ID = parseInt(process.env.TELEGRAM_API_ID) || 27336735; // Your API ID
+const API_HASH = process.env.TELEGRAM_API_HASH || '6132e350ac3ec46b3a7fb8e14d083269'; // Your API Hash
 
 // Group IDs or usernames to fetch members from
 const GROUP_IDS = [
