@@ -10,13 +10,14 @@ async function handleProduct(productId, customerEmail) {
   const ugcPulseId = -1002913124875;     // сейчас не используется, оставлено для совместимости
 
   const id = buildKey(customerEmail);
+  console.log(id);
   const ref = getRef('ugc-pulse/' + id);
 
   // читаем текущее daysPaid
   const date = new Date();
   const snapshot = await ref.once('value');
   const userData = snapshot.val();
-
+console.log(userData);
   const daysPaid = Number(userData.daysPaid) || 0;
   const lastPaymentDate = parseDMY(userData.lastPaymentDate);
   let daysFrom = calcDaysFrom(lastPaymentDate );

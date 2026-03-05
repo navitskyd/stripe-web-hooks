@@ -27,9 +27,9 @@ async function main() {
             }
 
             // Set new key with same values
-            updates[newKey] = value;
+            updates[oldKey] = null;
             count++;
-            console.log(`📝 ${oldKey} -> ${newKey}`);
+            console.log(`📝 ${oldKey} removed`);
         }
 
         if (count === 0) {

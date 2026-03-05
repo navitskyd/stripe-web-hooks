@@ -33,5 +33,5 @@ async function main(productId, customerEmail) {
 // main('prod_Tw7Wukp1CIRUU9', 'dnavitski@gmail.com').catch(console.error);
 // main('prod_Tx8BAeTMqW42GP', 'dnavitski@gmail.com').catch(console.error);
 // main('prod_Tx89OR3aYHSh1n', 'dnavitski@gmail.com').catch(console.error);
-main('prod_TLoR6Pvip9OLxU' , 'snezhana.trunina@gmail.com').catch(console.error);
+//main('prod_TLoR6Pvip9OLxU' , 'snejjik@gmail.com').catch(console.error);
 
