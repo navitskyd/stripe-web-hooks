@@ -1,13 +1,14 @@
 // telegram-group-members.js
 // Fetches all members from specified Telegram groups using Bot API
-
+const {path} = require('../src/utils/common');
 const https = require('https');
 
+
 // Configuration - replace with your values
-const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || 'YOUR_BOT_TOKEN_HERE';
+const BOT_TOKEN = process.env.TGBOT_TOKEN || 'YOUR_BOT_TOKEN_HERE';
 const GROUP_IDS = [
-    process.env.TELEGRAM_GROUP_1 || '-1001234567890', // Replace with actual group ID
-    process.env.TELEGRAM_GROUP_2 || '-1009876543210', // Replace with actual group ID
+    process.env.TELEGRAM_GROUP_1 || '-1002906638589', // Replace with actual group ID
+    process.env.TELEGRAM_GROUP_2 || '-1002913124875', // Replace with actual group ID
 ];
 
 function makeRequest(method, params = {}) {
@@ -105,9 +106,9 @@ async function main() {
     console.log('==================================\n');
 
     if (BOT_TOKEN === 'YOUR_BOT_TOKEN_HERE') {
-        console.error('❌ Please set TELEGRAM_BOT_TOKEN environment variable or update BOT_TOKEN in the script.');
+        console.error('❌ Please set TGBOT_TOKEN environment variable or update BOT_TOKEN in the script.');
         console.log('\nUsage:');
-        console.log('  TELEGRAM_BOT_TOKEN=your_token TELEGRAM_GROUP_1=-100xxx TELEGRAM_GROUP_2=-100yyy node scripts/telegram-group-members.js');
+        console.log('  TGBOT_TOKEN=your_token TELEGRAM_GROUP_1=-100xxx TELEGRAM_GROUP_2=-100yyy node scripts/telegram-group-members.js');
         process.exit(1);
     }
 
