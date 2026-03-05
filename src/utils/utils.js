@@ -65,6 +65,11 @@ function calcDaysFrom(lastPaymentStr) {
 function keyFromUserId(userID) {
   return crypto.createHash('sha256').update(userID || 'no-id', 'utf8').digest('hex');
 }
+
+function buildKey(email) {
+  return email.replaceAll(/[@.]/g, '_');
+}
+
 function extractNumber(str) {
   if (str == null) return null;
 
@@ -78,5 +83,5 @@ function extractNumber(str) {
 }
 module.exports = {
   generatePassword,
-  createInviteLink,parseDMY,calcDaysFrom,keyFromUserId,extractNumber
+  createInviteLink,parseDMY,calcDaysFrom,keyFromUserId,extractNumber, buildKey
 };

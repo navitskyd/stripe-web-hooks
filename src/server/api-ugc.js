@@ -1,5 +1,5 @@
 const {getRef, sendEmail} = require('../utils/common');
-const {extractNumber, calcDaysFrom, keyFromUserId} = require('../utils/utils');
+const {extractNumber, calcDaysFrom} = require('../utils/utils');
 
 const ugcPulseChatId = -1002906638589;
 const ugcPulseId = -1002913124875;
