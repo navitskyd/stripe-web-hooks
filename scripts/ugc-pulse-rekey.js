@@ -14,7 +14,7 @@ async function main() {
         let count = 0;
 
         for (const [oldKey, value] of Object.entries(data)) {
-            const email = value.email;
+            const email = value.userID;
             if (!email) {
                 console.warn(`⚠️ Record ${oldKey} has no email, skipping.`);
                 continue;
