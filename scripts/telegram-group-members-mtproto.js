@@ -77,24 +77,46 @@ async function getGroupMembers(client, groupId) {
         console.log(`\n👤 Active Members (${memberList.length}):`);
         console.table(memberList);
 
-        // Fetch banned/kicked members
+        // Fetch banned/kicked members using raw API call
         let bannedList = [];
         try {
-            const banned = await client.getParticipants(entity, {
-                limit: 10000,
-                filter: new Api.ChannelParticipantsKicked({q: ''}),
-            });
+            const bannedResult = await client.invoke(
+                new Api.channels.GetParticipants({
+                    channel: entity,
+                    filter: new Api.ChannelParticipantsKicked({ q: '' }),
+                    offset: 0,
+                    limit: 10000,
+                    hash: BigInt(0),
+                })
+            );
 
-            bannedList = banned.map(user => ({
-                id: user.id.toString(),
-                username: user.username || '',
-                firstName: user.firstName || '',
-                lastName: user.lastName || '',
-                phone: user.phone || '',
-                isBot: user.bot ? 'Yes' : 'No',
-                status: user.status?.className || 'Unknown',
-                memberStatus: '🚫 Banned',
-            }));
+            // Build a map of users from the response
+            const usersMap = {};
+            if (bannedResult.users) {
+                for (const user of bannedResult.users) {
+                    usersMap[user.id.toString()] = user;
+                }
+            }
+
+            // Extract banned participants
+            if (bannedResult.participants) {
+                bannedList = bannedResult.participants.map(participant => {
+                    const oderId = participant.oderId || participant.peer?.userId;
+                    const user = usersMap[oderId?.toString()] || {};
+                    return {
+                        id: user.id?.toString() || participant.oderId?.toString() || 'Unknown',
+                        username: user.username || '',
+                        firstName: user.firstName || '',
+                        lastName: user.lastName || '',
+                        phone: user.phone || '',
+                        isBot: user.bot ? 'Yes' : 'No',
+                        status: user.status?.className || 'Unknown',
+                        memberStatus: '🚫 Banned',
+                        kickedBy: participant.kickedBy?.toString() || '',
+                        date: participant.date ? new Date(participant.date * 1000).toISOString() : '',
+                    };
+                });
+            }
 
             console.log(`\n🚫 Banned Members (${bannedList.length}):`);
             if (bannedList.length > 0) {
@@ -104,6 +126,7 @@ async function getGroupMembers(client, groupId) {
             }
         } catch (banErr) {
             console.log(`\n⚠️ Could not fetch banned members: ${banErr.message}`);
+            console.log(`   Debug info: ${banErr.stack}`);
         }
 
         // Combined table
