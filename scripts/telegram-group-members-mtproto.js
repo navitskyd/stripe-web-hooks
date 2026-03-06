@@ -56,12 +56,12 @@ async function getGroupMembers(client, groupId) {
         console.log(`  ID: ${entity.id}`);
         if (entity.username) console.log(`  Username: @${entity.username}`);
 
-        // Fetch all participants
+        // Fetch all active participants
         const participants = await client.getParticipants(entity, {
-            limit: 10000, // Max participants to fetch
+            limit: 10000,
         });
 
-        console.log(`\n👥 Total Members: ${participants.length}`);
+        console.log(`\n👥 Total Active Members: ${participants.length}`);
 
         const memberList = participants.map(user => ({
             id: user.id.toString(),
@@ -71,16 +71,53 @@ async function getGroupMembers(client, groupId) {
             phone: user.phone || '',
             isBot: user.bot ? 'Yes' : 'No',
             status: user.status?.className || 'Unknown',
+            memberStatus: 'Active',
         }));
 
-        console.log(`\n👤 Members (${memberList.length}):`);
+        console.log(`\n👤 Active Members (${memberList.length}):`);
         console.table(memberList);
+
+        // Fetch banned/kicked members
+        let bannedList = [];
+        try {
+            const banned = await client.getParticipants(entity, {
+                limit: 10000,
+                filter: new Api.ChannelParticipantsKicked(''),
+            });
+
+            bannedList = banned.map(user => ({
+                id: user.id.toString(),
+                username: user.username || '',
+                firstName: user.firstName || '',
+                lastName: user.lastName || '',
+                phone: user.phone || '',
+                isBot: user.bot ? 'Yes' : 'No',
+                status: user.status?.className || 'Unknown',
+                memberStatus: '🚫 Banned',
+            }));
+
+            console.log(`\n🚫 Banned Members (${bannedList.length}):`);
+            if (bannedList.length > 0) {
+                console.table(bannedList);
+            } else {
+                console.log('   No banned members found.');
+            }
+        } catch (banErr) {
+            console.log(`\n⚠️ Could not fetch banned members: ${banErr.message}`);
+        }
+
+        // Combined table
+        const allMembers = [...memberList, ...bannedList];
+        console.log(`\n📋 All Members Combined (${allMembers.length}):`);
+        console.table(allMembers);
 
         return {
             groupId,
             title: entity.title,
             memberCount: participants.length,
+            bannedCount: bannedList.length,
             members: memberList,
+            banned: bannedList,
         };
 
     } catch (err) {
@@ -141,7 +178,7 @@ async function main() {
         if (r.error) {
             console.log(`❌ ${r.groupId}: ${r.error}`);
         } else {
-            console.log(`✅ ${r.title}: ${r.memberCount} members`);
+            console.log(`✅ ${r.title}: ${r.memberCount} active, ${r.bannedCount} banned`);
         }
     });
 
