@@ -69,8 +69,8 @@ async function getGroupMembers(client, groupId) {
             firstName: user.firstName || '',
             lastName: user.lastName || '',
             phone: user.phone || '',
-            isBot: user.bot ? 'Yes' : 'No',
-            status: user.status?.className || 'Unknown',
+            isBot: user.bot ? 'Yes' : '   ',
+           // status: user.status?.className || 'Unknown',
             memberStatus: 'Active',
         }));
 
@@ -109,11 +109,11 @@ async function getGroupMembers(client, groupId) {
                         firstName: user.firstName || '',
                         lastName: user.lastName || '',
                         phone: user.phone || '',
-                        isBot: user.bot ? 'Yes' : 'No',
-                        status: user.status?.className || 'Unknown',
+                       // isBot: user.bot ? 'Yes' : 'No',
+                      //  status: user.status?.className || 'Unknown',
                         memberStatus: '🚫 Banned',
-                        kickedBy: participant.kickedBy?.toString() || '',
-                        date: participant.date ? new Date(participant.date * 1000).toISOString() : '',
+                       // kickedBy: participant.kickedBy?.toString() || '',
+                        deleted: participant.date ? new Date(participant.date * 1000).toISOString() : '',
                     };
                 });
             }
@@ -128,11 +128,6 @@ async function getGroupMembers(client, groupId) {
             console.log(`\n⚠️ Could not fetch banned members: ${banErr.message}`);
             console.log(`   Debug info: ${banErr.stack}`);
         }
-
-        // Combined table
-        const allMembers = [...memberList, ...bannedList];
-        console.log(`\n📋 All Members Combined (${allMembers.length}):`);
-        console.table(allMembers);
 
         return {
             groupId,
