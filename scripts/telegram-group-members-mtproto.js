@@ -80,10 +80,20 @@ async function getGroupMembers(client, groupId) {
         // Fetch banned/kicked members
         let bannedList = [];
         try {
-            const banned = await client.getParticipants(entity, {
-                limit: 10000,
-                filter: new Api.ChannelParticipantsKicked(''),
-            });
+            // const banned = await client.getParticipants(entity, {
+            //     limit: 10000,
+            //     filter: new Api.ChannelParticipantsKicked(''),
+            // });
+
+            const banned = await client.invoke(
+                new Api.channels.GetParticipants({
+                    channel: groupId,
+                    filter: new Api.ChannelParticipantsKicked({q: ''}), // фильтр именно для забаненных
+                    offset: 0,
+                    limit: 1000, // максимум за один запрос
+                    hash: 0,
+                })
+            );
 
             bannedList = banned.map(user => ({
                 id: user.id.toString(),
