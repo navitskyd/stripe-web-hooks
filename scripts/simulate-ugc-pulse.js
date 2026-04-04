@@ -25,6 +25,7 @@ async function main(productId, customerEmail) {
 //  main('prod_TLoPLmbyPJkGOK', 'dnavitski@gmail.com').catch(console.error)
 //  .then(()=> main('prod_TLoR6Pvip9OLxU', 'dnavitski@gmail.com').catch(console.error));
 
- //main('prod_TravelStream2', '').catch(console.error)
+ //main('prod_TravelStream2', 'Nastia.sukhova@gmail.com').catch(console.error)
+ //main('prod_UGcFXnidiMmXnz', 'dnavitski@gmail.com').catch(console.error)
 
 
