@@ -26,6 +26,16 @@ async function main(productId, customerEmail) {
 //  .then(()=> main('prod_TLoR6Pvip9OLxU', 'dnavitski@gmail.com').catch(console.error));
 
  //main('prod_TravelStream2', 'Nastia.sukhova@gmail.com').catch(console.error)
- //main('prod_UGcFXnidiMmXnz', 'dnavitski@gmail.com').catch(console.error)
 
+
+main('prod_UGcFXnidiMmXnz', 'olga.kursy.95@mail.ru').catch(console.error);
+main('prod_UGcFXnidiMmXnz', 'perikovna@gmail.com').catch(console.error);
+main('prod_UGcFXnidiMmXnz', 'olga.pinchuk.27@gmail.com').catch(console.error);
+main('prod_UGcFXnidiMmXnz', 'susanina.irina@gmail.com').catch(console.error);
+main('prod_UGcFXnidiMmXnz', 'pataeva_86@mail.ru').catch(console.error);
+main('prod_UGcFXnidiMmXnz', '6742730@gmail.com').catch(console.error);
+main('prod_UGcFXnidiMmXnz', 'karina_cheshko@mail.ru').catch(console.error);
+main('prod_UGcFXnidiMmXnz', 'maxix@tut.by').catch(console.error);
+main('prod_UGcFXnidiMmXnz', 'nastya_volosach@inbox.ru').catch(console.error);
+main('prod_UGcFXnidiMmXnz', 'devochka_tanya@tut.by').catch(console.error);
 
