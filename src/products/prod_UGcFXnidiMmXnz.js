@@ -23,15 +23,15 @@ async function handleProduct(productId, customerEmail, customFields) {
 Если у вас возникнут вопросы - всегда можете написать на этот имейл ✨
 `
 
-  //await sendEmail('Svethappy <svethappy3@gmail.com>', customerEmail, productTitle, body);
+  await sendEmail('Svethappy <svethappy3@gmail.com>', customerEmail, productTitle, body);
 
   let instgramNick='';
   let instagramField = customFields.find((f)=>f.key==="instagram");
   if(instagramField){
     instgramNick = instagramField.text.value;
-    // await sendEmail('Svethappy <svethappy3@gmail.com>',
-    //     'svethappy.blogger@gmail.com', 'Новый зритель онлайн - Париж/Милан',
-    //     'Добавить инстаграм пользователя <b>'+instgramNick+'</b>' );
+    await sendEmail('Svethappy <svethappy3@gmail.com>',
+        'svethappy.blogger@gmail.com', 'Новый зритель онлайн - Париж/Милан',
+        'Добавить инстаграм пользователя <b>'+instgramNick+'</b>' );
   }
 
   const ID = buildKey(customerEmail);
@@ -43,6 +43,9 @@ async function handleProduct(productId, customerEmail, customFields) {
   })
   .then(() => {
     console.log('✅ new user added successfully ');
+    const db = ref.root.database;
+    db.goOffline();
+    process.exit();
   })
   .catch((err) => {
     console.error('❌ Error writing ugc-pulse:', err);
