@@ -29,4 +29,4 @@ async function main(productId, customerEmail) {
 
 
 // Paris online
-main('prod_UGcFXnidiMmXnz', 'sahs_ka@mail.ru').catch(console.error);
+//main('prod_UGcFXnidiMmXnz', 'sahs_ka@mail.ru').catch(console.error);
