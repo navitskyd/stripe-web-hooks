@@ -24,9 +24,10 @@ async function handleProduct(productId, customerEmail, custom_fields) {
 
   await sendEmail('Svethappy <svethappy3@gmail.com>', customerEmail, productTitle, body);
 
-  if(custom_fields.find(f=>f.key==="instagram")){
+  let instagramField = custom_fields.find((f)=>f.key==="instagram");
+  if(instagramField){
     await sendEmail('Svethappy <svethappy3@gmail.com>', 'svethappy.blogger@gmail.com', 'Новый зритель онлайн - Париж/Милан',
-        'Добавить инстаграм пользователя <b>'+f.text.value+'</b>' );
+        'Добавить инстаграм пользователя <b>'+instagramField.text.value+'</b>' );
   }
 }
 
