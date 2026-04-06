@@ -19,8 +19,9 @@ async function handleProduct(productId, customerEmail) {
   const date = new Date();
   const snapshot = await ref.once('value');
   const userData = snapshot.val();
-console.log(userData);
-  const daysPaid = Number(userData.daysPaid) || 0;
+
+
+  const daysPaid = Number(userData.daysPaid || 0) || 0;
   const lastPaymentDate = parseDMY(userData.lastPaymentDate);
   let daysFrom = calcDaysFrom(lastPaymentDate );
   console.log("Extra month purchase. Current daysPaid:", daysPaid, "lastPaymentDate:", lastPaymentDate, "daysFrom:", daysFrom);
