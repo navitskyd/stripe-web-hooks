@@ -2,7 +2,7 @@
 // Онлайн-путешествие: Париж и страна Х
 const { sendEmail } = require('../utils/common');
 const productTitle = 'Онлайн-путешествие: Париж и страна Х';
-async function handleProduct(productId, customerEmail) {
+async function handleProduct(productId, customerEmail, custom_fields) {
 
 // Reels intensiv
   console.log(productTitle + " для " + customerEmail);
@@ -23,6 +23,11 @@ async function handleProduct(productId, customerEmail) {
 `
 
   await sendEmail('Svethappy <svethappy3@gmail.com>', customerEmail, productTitle, body);
+
+  if(custom_fields.find(f=>f.key==="instagram")){
+    await sendEmail('Svethappy <svethappy3@gmail.com>', 'svethappy.blogger@gmail.com', 'Новый зритель онлайн - Париж/Милан',
+        'Добавить инстаграм пользователя <b>'+f.text.value+'</b>' );
+  }
 }
 
 module.exports = {
