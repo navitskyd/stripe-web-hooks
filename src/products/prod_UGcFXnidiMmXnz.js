@@ -1,8 +1,9 @@
 
 // Онлайн-путешествие: Париж и страна Х
-const { sendEmail } = require('../utils/common');
+const { sendEmail, getRef } = require('../utils/common');
+const {buildKey} = require("../utils/utils");
 const productTitle = 'Онлайн-путешествие: Париж и страна Х';
-async function handleProduct(productId, customerEmail, custom_fields) {
+async function handleProduct(productId, customerEmail, customFields) {
 
 // Reels intensiv
   console.log(productTitle + " для " + customerEmail);
@@ -22,13 +23,31 @@ async function handleProduct(productId, customerEmail, custom_fields) {
 Если у вас возникнут вопросы - всегда можете написать на этот имейл ✨
 `
 
-  await sendEmail('Svethappy <svethappy3@gmail.com>', customerEmail, productTitle, body);
+  //await sendEmail('Svethappy <svethappy3@gmail.com>', customerEmail, productTitle, body);
 
-  let instagramField = custom_fields.find((f)=>f.key==="instagram");
+  let instgramNick='';
+  let instagramField = customFields.find((f)=>f.key==="instagram");
   if(instagramField){
-    await sendEmail('Svethappy <svethappy3@gmail.com>', 'svethappy.blogger@gmail.com', 'Новый зритель онлайн - Париж/Милан',
-        'Добавить инстаграм пользователя <b>'+instagramField.text.value+'</b>' );
+    instgramNick = instagramField.text.value;
+    // await sendEmail('Svethappy <svethappy3@gmail.com>',
+    //     'svethappy.blogger@gmail.com', 'Новый зритель онлайн - Париж/Милан',
+    //     'Добавить инстаграм пользователя <b>'+instgramNick+'</b>' );
   }
+
+  const ID = buildKey(customerEmail);
+  const ref = getRef('online-paris-milan').child(ID);
+
+  await ref.set({
+    email:customerEmail,
+    instagram:instgramNick
+  })
+  .then(() => {
+    console.log('✅ new user added successfully ');
+  })
+  .catch((err) => {
+    console.error('❌ Error writing ugc-pulse:', err);
+    throw err;
+  });
 }
 
 module.exports = {
