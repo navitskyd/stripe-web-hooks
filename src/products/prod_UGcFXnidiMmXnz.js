@@ -22,15 +22,14 @@ async function handleProduct(productId, customerEmail, customFields) {
 Если у вас возникнут вопросы - всегда можете написать на этот имейл ✨
 `
 
-  await sendEmail('Svethappy <svethappy3@gmail.com>', 'dnavitski@gmail.com',
-      productTitle, body);
+  await sendEmail('Svethappy <svethappy3@gmail.com>', customerEmail, productTitle, body);
 
   let instgramNick = '';
   let instagramField = customFields.find((f) => f.key === "instagram");
   if (instagramField) {
     instgramNick = instagramField.text.value;
     await sendEmail('Svethappy <svethappy3@gmail.com>',
-        'dnavitski@gmail.com',
+        'svethappy.blogger@gmail.com',
         'Новый зритель онлайн - Париж/Милан - ' + instgramNick,
         'Добавить инстаграм пользователя <b>' + instgramNick + '</b>');
   }
