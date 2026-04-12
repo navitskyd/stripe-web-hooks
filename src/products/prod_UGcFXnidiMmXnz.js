@@ -46,7 +46,6 @@ async function handleProduct(productId, customerEmail, customFields) {
     console.log('✅ new user added successfully ');
     const db = ref.root.database;
     db.goOffline();
-    process.exit();
   })
   .catch((err) => {
     console.error('❌ Error writing online-paris-milan:', err);
