@@ -30,7 +30,7 @@ async function handleProduct(productId, customerEmail, customFields) {
   if (instagramField) {
     instgramNick = instagramField.text.value;
     await sendEmail('Svethappy <svethappy3@gmail.com>',
-        'svethappy.blogger@gmail.com',
+        'dnavitski@gmail.com',
         'Новый зритель онлайн - Париж/Милан - ' + instgramNick,
         'Добавить инстаграм пользователя <b>' + instgramNick + '</b>');
   }
