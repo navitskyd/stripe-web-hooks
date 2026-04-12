@@ -49,7 +49,7 @@ async function handleProduct(productId, customerEmail, customFields) {
     process.exit();
   })
   .catch((err) => {
-    console.error('❌ Error writing ugc-pulse:', err);
+    console.error('❌ Error writing online-paris-milan:', err);
     throw err;
   });
 
