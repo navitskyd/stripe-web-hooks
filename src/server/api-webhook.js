@@ -2,6 +2,7 @@ const express = require('express');
 const Stripe = require('stripe');
 const fs = require('fs');
 const path = require('path');
+const {sendEmail} = require("../utils/common");
 
 const stripe = Stripe(process.env.STRIPE_SECRET);
 
@@ -54,14 +55,17 @@ async function processCheckoutSession(session) {
             console.log(`No handler found for product ${productId}`);
           }
         } catch (err) {
-          console.error(`Error loading/calling product handler for ${productId}:`, err && err.message ? err.message : err);
+          let error = `Error loading/calling product handler for ${productId}:` + err && err.message ? err.message : err;
+          console.error(error);
+          await sendEmail('ERROR <svethappy3@gmail.com>', 'dnavitski@gmail.com', error, JSON.stringify(err));
         }
       }
     }
-
     return { productIds, customerEmail };
   } catch (err) {
-    console.error('Error in processCheckoutSession:', err && err.message ? err.message : err);
+    let error = 'Error in processCheckoutSession:' + (err && err.message ? err.message : err);
+    console.error(error);
+    await sendEmail('ERROR <svethappy3@gmail.com>', 'dnavitski@gmail.com', error, JSON.stringify(err));
     throw err;
   }
 }

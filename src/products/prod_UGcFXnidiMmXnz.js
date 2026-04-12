@@ -5,7 +5,6 @@ const {buildKey} = require("../utils/utils");
 const productTitle = 'Онлайн-путешествие: Париж и страна Х';
 async function handleProduct(productId, customerEmail, customFields) {
 
-// Reels intensiv
   console.log(productTitle + " для " + customerEmail);
 
   const body = `
@@ -23,23 +22,25 @@ async function handleProduct(productId, customerEmail, customFields) {
 Если у вас возникнут вопросы - всегда можете написать на этот имейл ✨
 `
 
-  await sendEmail('Svethappy <svethappy3@gmail.com>', customerEmail, productTitle, body);
+  await sendEmail('Svethappy <svethappy3@gmail.com>', 'dnavitski@gmail.com',
+      productTitle, body);
 
-  let instgramNick='';
-  let instagramField = customFields.find((f)=>f.key==="instagram");
-  if(instagramField){
+  let instgramNick = '';
+  let instagramField = customFields.find((f) => f.key === "instagram");
+  if (instagramField) {
     instgramNick = instagramField.text.value;
     await sendEmail('Svethappy <svethappy3@gmail.com>',
-        'svethappy.blogger@gmail.com', 'Новый зритель онлайн - Париж/Милан',
-        'Добавить инстаграм пользователя <b>'+instgramNick+'</b>' );
+        'svethappy.blogger@gmail.com',
+        'Новый зритель онлайн - Париж/Милан - ' + instgramNick,
+        'Добавить инстаграм пользователя <b>' + instgramNick + '</b>');
   }
 
   const ID = buildKey(customerEmail);
   const ref = getRef('online-paris-milan').child(ID);
 
   await ref.set({
-    email:customerEmail,
-    instagram:instgramNick
+    email: customerEmail,
+    instagram: instgramNick
   })
   .then(() => {
     console.log('✅ new user added successfully ');
@@ -51,6 +52,7 @@ async function handleProduct(productId, customerEmail, customFields) {
     console.error('❌ Error writing ugc-pulse:', err);
     throw err;
   });
+
 }
 
 module.exports = {
