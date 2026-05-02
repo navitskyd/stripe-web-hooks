@@ -1,5 +1,5 @@
 // products/prod_UgcLab.js
-const { sendEmail } = require('../utils/common');
+
 const { createInviteLink, ugcNotifyPayment} = require('../utils/utils');
 
 const productTitle = 'Практикум по съемке UGC видео';

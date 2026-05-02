@@ -1,6 +1,6 @@
 const { sendEmail,db,admin } = require('../utils/common');
 
-const productTitle = 'Трэвел Курс для новичков "База самостоятельных путешествий"';
+const productTitle = 'Вебинар "Секреты и Лайфхаки"';
 
 const bodyWithPassword = `
 Здравствуйте!

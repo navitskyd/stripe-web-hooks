@@ -1,5 +1,5 @@
 // products/prod_TLoPLmbyPJkGOK.js
-const { sendEmail, getRef } = require('../../src/utils/common');
+const {  getRef } = require('../../src/utils/common');
 const { buildKey } = require('../../src/utils/utils');
 const {ugcNotifyPayment} = require("../utils/utils");
 
@@ -56,7 +56,6 @@ https://t.me/+SLp3Vox-kMNjZGVi
 По техническим вопросам можно писать на email <a href="mailto:svethappy3@gmail.com">svethappy3@gmail.com</a>
 `;
 
-  await sendEmail('Svethappy <svethappy3@gmail.com>', customerEmail, productTitle, body);
 
     await ugcNotifyPayment (customerEmail, customerReferenceId, productTitle, body);
 }

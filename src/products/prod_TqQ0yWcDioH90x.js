@@ -1,5 +1,5 @@
 // products/prod_PhotoVideoSvet.js
-const { sendEmail } = require('../utils/common');
+
 const { createInviteLink, ugcNotifyPayment} = require('../utils/utils');
 
 const productTitle ='Курс по созданию качественного контента и развитию соц сетей';
