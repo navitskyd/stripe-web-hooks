@@ -1,11 +1,13 @@
 // prod_TLoPLmbyPJkGOK.js
 const {getRef} = require('../../src/utils/common');
 const { buildKey } = require('../../src/utils/utils');
-const {parseDMY, calcDaysFrom, ugcNotifyPayment} = require("../utils/utils");
+const {parseDMY, calcDaysFrom, ugcLinkEmailAndTelegramId} = require("../utils/utils");
 
 const productTitle = 'Клуб создателей контента - дополнительный месяц';
 
-async function handleProduct(productId, customerEmail, customFields, customerReferenceId) {
+async function handleProduct(productId, customerEmail, session) {
+    let customFields = session.custom_fields;
+
   console.log(productTitle + customerEmail);
 
   const ugcPulseChatId = -1002906638589; // сейчас не используется, оставлено для совместимости
@@ -58,7 +60,7 @@ async function handleProduct(productId, customerEmail, customFields, customerRef
     По техническим вопросам можно писать на email <a href="mailto:svethappy3@gmail.com">svethappy3@gmail.com</a>
 `;
 
-    await ugcNotifyPayment (customerEmail, customerReferenceId, productTitle, body);
+    await ugcLinkEmailAndTelegramId (customerEmail, session, productTitle, body);
 }
 
 module.exports = {

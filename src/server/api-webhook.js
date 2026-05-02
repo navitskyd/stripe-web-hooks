@@ -21,8 +21,7 @@ async function processCheckoutSession(session) {
   try {
     // Получаем email покупателя
     let customerEmail = session.customer_details?.email || session.customer_email || null;
-    let customFields = session.custom_fields;
-    let customerReferenceId = session.client_reference_id || null;
+
     if(!customerEmail ) {
       console.error(`Error retrieving customer ${session.customer}:`, err && err.message ? err.message : err);
       return
@@ -50,7 +49,7 @@ async function processCheckoutSession(session) {
           if (fs.existsSync(handlerPath)) {
             const handler = require(handlerPath);
             if (handler.handleProduct && typeof handler.handleProduct === 'function') {
-              await handler.handleProduct(productId, customerEmail, customFields, customerReferenceId);
+              await handler.handleProduct(productId, customerEmail, session);
             }
           } else {
             console.log(`No handler found for product ${productId}`);

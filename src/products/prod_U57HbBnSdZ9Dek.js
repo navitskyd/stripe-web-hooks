@@ -1,11 +1,12 @@
 
 // Гайд "UGC Креатор: что это, с чего начать, как зарабатывать"
-const { ugcNotifyPayment } = require('../utils/utils');
+const { ugcLinkEmailAndTelegramId } = require('../utils/utils');
 
 const productTitle = 'Гайд "UGC Креатор: что это, с чего начать, как зарабатывать"';
 
-async function handleProduct(productId, customerEmail, customFields, customerReferenceId) {
-
+async function handleProduct(productId, customerEmail, session) {
+    let customFields = session.custom_fields;
+    let customerReferenceId = session.client_reference_id || null;
 // Reels intensiv
   console.log(productTitle + " для " + customerEmail);
 
@@ -19,7 +20,7 @@ async function handleProduct(productId, customerEmail, customFields, customerRef
 
     По техническим вопросам можно писать на email <a href="mailto:svethappy3@gmail.com">svethappy3@gmail.com</a>
 `
-    await ugcNotifyPayment (customerEmail, customerReferenceId, productTitle, body);
+    await ugcLinkEmailAndTelegramId (customerEmail, session, productTitle, body);
 
 }
 

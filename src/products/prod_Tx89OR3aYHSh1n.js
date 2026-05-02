@@ -38,8 +38,10 @@ const bodyNoPassword = `
       От души, svethappy
 `;
 
-async function handleProduct(productId, customerEmail, customFields, customerReferenceId) {
-  console.log(productTitle + customerEmail);
+async function handleProduct(productId, customerEmail, session) {
+    let customFields = session.custom_fields;
+    let customerReferenceId = session.client_reference_id || null;
+    console.log(productTitle + customerEmail);
 
   let generatedPassword = '';
 

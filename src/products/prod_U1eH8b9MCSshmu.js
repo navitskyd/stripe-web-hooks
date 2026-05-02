@@ -2,8 +2,9 @@
 // Гайд по Стамбулу: "Готовое путешествие"
 const { sendEmail } = require('../utils/common');
 const productTitle = 'Гайд по Стамбулу: "Готовое путешествие"';
-async function handleProduct(productId, customerEmail, customFields, customerReferenceId) {
-
+async function handleProduct(productId, customerEmail, session) {
+    let customFields = session.custom_fields;
+    let customerReferenceId = session.client_reference_id || null;
 // Reels intensiv
   console.log(productTitle + " для " + customerEmail);
 

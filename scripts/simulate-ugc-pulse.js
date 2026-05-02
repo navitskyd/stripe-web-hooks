@@ -13,9 +13,8 @@ async function main(productId, customerEmail, customFields, customerReferenceId)
   const handlerModule = require(handlerPath); // CommonJS
 
   const handleProduct = handlerModule.handleProduct; // named export
-
   if (typeof handleProduct === 'function') {
-    await handleProduct(productId, customerEmail, customFields, customerReferenceId);
+    await handleProduct(productId, customerEmail, {customFields:[], client_referenceId: null});
   } else {
     console.error('handleProduct is not a function in module:', handlerPath);
   }
