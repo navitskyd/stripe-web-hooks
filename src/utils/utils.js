@@ -86,7 +86,7 @@ async function ugcNotifyPayment(email, customerReferenceId, title, body) {
   }
     await sendEmail('Svethappy <svethappy3@gmail.com>', email, title, body);
   return axios
-    .post(url, { email, telegramId:customerReferenceId, message:body })
+    .post(url, { email:email, telegramId:customerReferenceId, message:body })
     .then((response) => response.data)
     .catch((error) => {
       console.error('Failed to notify payment:', error.message || error);
