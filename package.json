@@ -7,6 +7,7 @@
     "start:prod": "node src/server/server.js"
   },
   "dependencies": {
+    "@upstash/redis": "^1.37.0",
     "axios": "^1.5.0",
     "cors": "^2.8.6",
     "crypto": "^1.0.1",
