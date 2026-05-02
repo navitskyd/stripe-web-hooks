@@ -95,14 +95,15 @@ function extractNumber(str) {
 
 async function ugcLinkEmailAndTelegramId(email, session, title, body) {
   let customerReferenceId = session.client_reference_id || null;
-  if (!customerReferenceId) {
-    const shortId = Date.now().toString(36); // Даст что-то вроде "m1p5u8z4" (8 символов)
-    await redis.set(shortId, session.id, {ex: 3600})
-    const botLink = `https://t.me/SvethappyUGC_bot?start=PAYMENT-${shortId}`;
-    const linkBody = `Пожалуйста, перейдите по ссылке и подтвердите свой email: ${botLink}`;
-    await sendEmail('Svethappy <svethappy3@gmail.com>', email, title, linkBody);
-    return;
-  }
+
+  // if (!customerReferenceId) {
+  //   const shortId = Date.now().toString(36); // Даст что-то вроде "m1p5u8z4" (8 символов)
+  //   await redis.set(shortId, session.id, {ex: 3600})
+  //   const botLink = `https://t.me/SvethappyUGC_bot?start=PAYMENT-${shortId}`;
+  //   const linkBody = `Пожалуйста, перейдите по ссылке и подтвердите свой email: ${botLink}`;
+  //   await sendEmail('Svethappy <svethappy3@gmail.com>', email, title, linkBody);
+  //   return;
+  // }
 
   await sendEmail('Svethappy <svethappy3@gmail.com>', email, title, body);
 
