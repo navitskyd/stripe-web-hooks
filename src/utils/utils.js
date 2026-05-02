@@ -3,7 +3,6 @@ const axios = require('axios');
 const {sendEmail} = require("./common");
 const {Redis} = require('@upstash/redis');
 
-console.log("redis url=",process.env.REDIS_KV_URL);
 const redis = new Redis({
   url: process.env.REDIS_KV_REST_API_URL,
   token: process.env.REDIS_KV_REST_API_TOKEN,
