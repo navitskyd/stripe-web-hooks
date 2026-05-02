@@ -22,8 +22,7 @@ async function main(productId, customerEmail, customFields) {
 }
 
 // пример вызова
-//  main('prod_TLoPLmbyPJkGOK', 'dnavitski@gmail.com').catch(console.error)
-//  .then(()=> main('prod_TLoR6Pvip9OLxU', 'dnavitski@gmail.com').catch(console.error));
+ main('prod_TLoPLmbyPJkGOK', 'dnavitski@gmail.com').catch(console.error);
 
  //main('prod_TravelStream2', 'dnavitski@gmail.com',[]).catch(console.error)
  // main('prod_Tw7UBkg0EBa9A0', 'pr.nadiacreates@gmail.com',[]).catch(console.error)

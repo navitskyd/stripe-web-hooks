@@ -1,5 +1,5 @@
 {
-	"date": "2026-05-02 09:51:33 WEST",
-	"comment": "send notfifcation about payment to ugc bot",
-	"version": "1.71.0"
+	"date": "2026-05-02 10:05:47 WEST",
+	"comment": "fix notify ugc bot payload",
+	"version": "1.72.0"
 }
