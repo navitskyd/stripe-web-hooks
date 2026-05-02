@@ -3,7 +3,7 @@
 const { sendEmail, getRef } = require('../utils/common');
 const {buildKey} = require("../utils/utils");
 const productTitle = 'Онлайн-путешествие: Париж и страна Х';
-async function handleProduct(productId, customerEmail, customFields) {
+async function handleProduct(productId, customerEmail, customFields, customerReferenceId) {
 
   console.log(productTitle + " для " + customerEmail);
 

@@ -48,7 +48,7 @@ const bodyNoPassword = `
       От души, svethappy
 `;
 
-async function handleProduct(productId, customerEmail) {
+async function handleProduct(productId, customerEmail, customFields, customerReferenceId) {
   console.log(productTitle + customerEmail);
 
   let generatedPassword = '';

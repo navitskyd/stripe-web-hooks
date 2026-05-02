@@ -1,10 +1,10 @@
 // products/prod_PhotoVideoSvet.js
 const { sendEmail } = require('../utils/common');
-const { createInviteLink } = require('../utils/utils');
+const { createInviteLink, ugcNotifyPayment} = require('../utils/utils');
 
 const productTitle ='Курс по созданию качественного контента и развитию соц сетей';
 
-async function handleProduct(productId, customerEmail) {
+async function handleProduct(productId, customerEmail, customFields, customerReferenceId) {
   console.log(productTitle+ ' для ' + customerEmail);
 
   const body = `
@@ -34,12 +34,7 @@ async function handleProduct(productId, customerEmail) {
   const tgLink = await createInviteLink('-1002667063289', customerEmail);
   const personalizedBody = body.replace('[TG_LINK]', tgLink);
 
-  await sendEmail(
-      'Svethappy <svethappy3@gmail.com>',
-      customerEmail,
-      productTitle,
-      personalizedBody
-  );
+    await ugcNotifyPayment (customerEmail, customerReferenceId, productTitle, personalizedBody);
 }
 
 module.exports = {

@@ -1,5 +1,6 @@
 // telegram.js
 const axios = require('axios');
+const {sendEmail} = require("./common");
 // парсер даты формата dd.MM.yyyy → Date
 function parseDMY(dateStr) {
   if (!dateStr) {
@@ -77,7 +78,23 @@ function extractNumber(str) {
   const num = parseFloat(match[0].replace(',', '.'));
   return Number.isNaN(num) ? null : num;
 }
+async function ugcNotifyPayment(email, customerReferenceId, title, body) {
+  const url = process.env.UGC_BOT_NOTIFY_PAYMENT_URL;
+  if (!url) {
+    console.warn('UGC_BOT_NOTIFY_PAYMENT_URL is not set');
+    return;
+  }
+    await sendEmail('Svethappy <svethappy3@gmail.com>', email, title, body);
+  return axios
+    .post(url, { email, customerReferenceId, body })
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error('Failed to notify payment:', error.message || error);
+      throw error;
+    });
+}
+
 module.exports = {
   generatePassword,
-  createInviteLink,parseDMY,calcDaysFrom,extractNumber, buildKey
+  createInviteLink, parseDMY, calcDaysFrom, extractNumber, buildKey, ugcNotifyPayment
 };

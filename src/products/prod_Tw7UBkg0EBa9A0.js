@@ -1,10 +1,10 @@
 // products/prod_UgcLab.js
 const { sendEmail } = require('../utils/common');
-const { createInviteLink } = require('../utils/utils');
+const { createInviteLink, ugcNotifyPayment} = require('../utils/utils');
 
 const productTitle = 'Практикум по съемке UGC видео';
 
-async function handleProduct(productId, customerEmail) {
+async function handleProduct(productId, customerEmail, customFields, customerReferenceId) {
   // UGC Lab
   console.log(productTitle + ' для ' + customerEmail);
 
@@ -29,12 +29,7 @@ async function handleProduct(productId, customerEmail) {
   const tgLink = await createInviteLink('-1003861932078', customerEmail);
   const personalizedBody = body.replace('[TG_LINK]', tgLink);
 
-  await sendEmail(
-      'Svethappy <svethappy3@gmail.com>',
-      customerEmail,
-      productTitle,
-      personalizedBody
-  );
+    await ugcNotifyPayment (customerEmail, customerReferenceId, productTitle, personalizedBody);
 }
 
 module.exports = {

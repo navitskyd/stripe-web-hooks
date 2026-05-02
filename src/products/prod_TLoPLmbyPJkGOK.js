@@ -1,10 +1,11 @@
 // products/prod_TLoPLmbyPJkGOK.js
 const { sendEmail, getRef } = require('../../src/utils/common');
 const { buildKey } = require('../../src/utils/utils');
+const {ugcNotifyPayment} = require("../utils/utils");
 
 const productTitle = 'Клуб создателей контента - доступ 1 месяц';
 
-async function handleProduct(productId, customerEmail) {
+async function handleProduct(productId, customerEmail, customFields, customerReferenceId) {
   // UGC Pulse
   console.log(productTitle + ' для ' + customerEmail);
 
@@ -56,6 +57,8 @@ https://t.me/+SLp3Vox-kMNjZGVi
 `;
 
   await sendEmail('Svethappy <svethappy3@gmail.com>', customerEmail, productTitle, body);
+
+    await ugcNotifyPayment (customerEmail, customerReferenceId, productTitle, body);
 }
 
 module.exports = {

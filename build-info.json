@@ -1,5 +1,5 @@
 {
-	"date": "2026-04-06 21:02:06 WEST",
-	"comment": "save online watchers in db, send IG nick to sveta",
-	"version": "1.70.0"
+	"date": "2026-05-02 09:51:33 WEST",
+	"comment": "send notfifcation about payment to ugc bot",
+	"version": "1.71.0"
 }
