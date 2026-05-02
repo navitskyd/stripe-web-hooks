@@ -1,5 +1,5 @@
 // prod_TLoPLmbyPJkGOK.js
-const {getRef,sendEmail} = require('../../src/utils/common');
+const {getRef} = require('../../src/utils/common');
 const { buildKey } = require('../../src/utils/utils');
 const {parseDMY, calcDaysFrom, ugcNotifyPayment} = require("../utils/utils");
 
