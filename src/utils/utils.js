@@ -1,6 +1,13 @@
 // telegram.js
 const axios = require('axios');
 const {sendEmail} = require("./common");
+const {Redis} = require('@upstash/redis');
+
+const redis = new Redis({
+  url: process.env.REDIS_KV_REST_API_URL,
+  token: process.env.REDIS_KV_REST_API_TOKEN,
+});
+
 // парсер даты формата dd.MM.yyyy → Date
 function parseDMY(dateStr) {
   if (!dateStr) {
@@ -53,6 +60,7 @@ function createInviteLink(chatId, name) {
     throw error;
   });
 }
+
 // разница в днях (today - lastPayment)
 function calcDaysFrom(lastPaymentStr) {
   const today = new Date();
@@ -70,11 +78,15 @@ function buildKey(email) {
 }
 
 function extractNumber(str) {
-  if (str == null) return null;
+  if (str == null) {
+    return null;
+  }
 
   // Ищем первую последовательность цифр (возможно с точкой/запятой)
   const match = String(str).match(/[-+]?\d*[\.,]?\d+/);
-  if (!match) return null;
+  if (!match) {
+    return null;
+  }
 
   // Заменяем запятую на точку и парсим
   const num = parseFloat(match[0].replace(',', '.'));
@@ -82,13 +94,16 @@ function extractNumber(str) {
 }
 
 async function ugcLinkEmailAndTelegramId(email, session, title, body) {
-    let customerReferenceId = session.client_reference_id || null;
-    if (!customerReferenceId) {
-    const botLink = `https://t.me/SvethappyUGC_bot?start=PAYMENT-${session.id}`;
-    const linkBody = `Пожалуйста, перейдите по ссылке и подтвердите свой email: ${botLink}`;
-    await sendEmail('Svethappy <svethappy3@gmail.com>', email, title, linkBody);
-    return;
-  }
+  let customerReferenceId = session.client_reference_id || null;
+
+  // if (!customerReferenceId) {
+  //   const shortId = Date.now().toString(36); // Даст что-то вроде "m1p5u8z4" (8 символов)
+  //   await redis.set(shortId, session.id, {ex: 3600})
+  //   const botLink = `https://t.me/SvethappyUGC_bot?start=PAYMENT-${shortId}`;
+  //   const linkBody = `Пожалуйста, перейдите по ссылке и подтвердите свой email: ${botLink}`;
+  //   await sendEmail('Svethappy <svethappy3@gmail.com>', email, title, linkBody);
+  //   return;
+  // }
 
   await sendEmail('Svethappy <svethappy3@gmail.com>', email, title, body);
 
@@ -99,15 +114,20 @@ async function ugcLinkEmailAndTelegramId(email, session, title, body) {
   }
 
   return axios
-    .post(url, { email: email, telegramId: customerReferenceId, message: body })
-    .then((response) => response.data)
-    .catch((error) => {
-      console.error('Failed to notify payment:', error.message || error);
-      throw error;
-    });
+  .post(url, {email: email, telegramId: customerReferenceId, message: body})
+  .then((response) => response.data)
+  .catch((error) => {
+    console.error('Failed to notify payment:', error.message || error);
+    throw error;
+  });
 }
 
 module.exports = {
   generatePassword,
-  createInviteLink, parseDMY, calcDaysFrom, extractNumber, buildKey, ugcLinkEmailAndTelegramId
+  createInviteLink,
+  parseDMY,
+  calcDaysFrom,
+  extractNumber,
+  buildKey,
+  ugcLinkEmailAndTelegramId
 };
