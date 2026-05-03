@@ -1,0 +1,65 @@
+
+
+.photosvet-button .link_wrapper{
+  position: relative;
+}
+
+.photosvet-button a{
+  display: block;
+
+  height: 50px;
+  line-height: 50px;
+  font-weight: bold;
+  text-decoration: none;
+
+  text-align: center;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+
+  border-radius:10px;
+  transition: all .35s;
+
+  width: 200px;
+  border: 3px solid #af621d;
+  background: transparent;
+  color: #333;
+}
+
+.photosvet-button .icon{
+
+  width: 50px;
+  height: 50px;
+  border: 3px solid transparent;
+  position: relative;
+  transform: rotate(45deg);
+  left: -45px;
+  top: -55px;
+  visibility:hidden;
+
+  /*transition: all .35s;*/
+}
+
+.photosvet-button .icon svg{
+  width: 30px;
+  position: fixed;
+  top: calc(50% - 15px);
+  left: calc(50% - 15px);
+  transform: rotate(-45deg);
+  fill: red;
+  /*transition: all 0.35s;*/
+}
+
+.photosvet-button a:hover{
+  width: 200px;
+  border: 3px solid #af621d;
+  background: transparent;
+  color: #333;
+
+}
+
+.photosvet-button a:hover + .icon{
+  border: 3px solid #af621d;
+  visibility:visible;
+  left: 150px;
+}

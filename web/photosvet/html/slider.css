@@ -1,0 +1,129 @@
+.t-col_4 {
+  max-width: 360px;
+}
+.t-col {
+  display: inline;
+  float: left;
+  margin-left: 20px;
+  margin-right: 20px;
+  width: 100%;
+}
+.t214__blockimg {
+  max-width: 360px;
+  height: 360px;
+  margin-bottom: 20px;
+}
+
+
+
+.photosvet-slider {
+  /*   overflow: hidden; */
+
+}
+.photosvet-slider figure {
+  background-size: cover;
+  position: relative;
+  font-size: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+
+}
+
+.photosvet-slider figure div {
+  background-size: cover;
+  position: absolute;
+  width: 50%;
+  box-shadow: 0 5px 10px -2px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  bottom: 0;
+  height: 100%;
+
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+  top: -13rem;
+  left: -2%;
+  background-color: rgba(255,255,255, 0);
+  width: 102%;
+
+}
+input[type="range"]:focus {
+  outline: none;
+}
+input[type="range"]:active {
+  outline: none;
+}
+
+input[type="range"]::-moz-range-track {
+  -moz-appearance: none;
+  height: 15px;
+  width: 98%;
+  background-color: rgba(255, 255, 255, 0);
+  position: relative;
+  outline: none;
+}
+input[type="range"]:active {
+  border: none;
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 50px;
+  height: 50px;
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 0;
+}
+input[type="range"]::-moz-range-thumb {
+  -moz-appearance: none;
+  width: 50px;
+  height: 50px;
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 0;
+}
+input[type="range"]:focus::-webkit-slider-thumb {
+  background: rgba(255, 255, 255, 0);
+}
+input[type="range"]:focus::-moz-range-thumb {
+  background: rgba(255, 255, 255, 0);
+}
+
+
+.photosvet-slider .slider-button {
+  pointer-events: none;
+  position: relative;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.7);
+  left: calc(50% - 25px);
+  top: -16.5rem;
+  display: flex;
+  /*   border:1px solid black; */
+  justify-content: center;
+  align-items: center;
+
+}
+.photosvet-slider .slider-button:after {
+  content: "";
+  padding: 3px;
+  display: inline-block;
+  border: solid #5D5D5D;
+  border-width: 0 2px 2px 0;
+  transform: rotate(-45deg);
+}
+.photosvet-slider .slider-button:before {
+  content: "";
+  padding: 3px;
+  display: inline-block;
+  border: solid #5D5D5D;
+  border-width: 0 2px 2px 0;
+  transform: rotate(135deg);
+}
+
+
+
+
