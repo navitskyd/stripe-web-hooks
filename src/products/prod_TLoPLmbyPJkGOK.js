@@ -1,7 +1,7 @@
 // products/prod_TLoPLmbyPJkGOK.js
 
-const { buildKey } = require('../../src/utils/utils');
-const {ugcNotifyPayment} = require("../utils/utils");
+const {buildKey,ugcLinkEmailAndTelegramId} = require("../utils/utils");
+const {getRef} = require("../utils/common");
 
 const productTitle = 'Клуб создателей контента - доступ 1 месяц';
 

@@ -24,10 +24,14 @@ async function main(productId, customerEmail, session) {
 
 const myTG = 5533843441;
 // пример вызова
-main('prod_TLoR6Pvip9OLxU', 'dnavitski@gmail.com', {
-  id: "cs_live_a19dbT8tQntvAhdm16zwTXNNf8PCYb2lu6kffITRixkhfz5cJ9GMNwjUwI",
-  customFields: [], client_referenceId: null
-}).catch(console.error);
+// main('prod_TLoR6Pvip9OLxU', 'dnavitski@gmail.com', {
+//   id: "cs_live_a19dbT8tQntvAhdm16zwTXNNf8PCYb2lu6kffITRixkhfz5cJ9GMNwjUwI",
+//   customFields: [], client_referenceId: null
+// }).catch(console.error);
 
 //main('prod_TravelStream2', 'dnavitski@gmail.com',[]).catch(console.error)
 // main('prod_Tw7UBkg0EBa9A0', 'pr.nadiacreates@gmail.com',[]).catch(console.error)
+
+main('prod_TLoPLmbyPJkGOK', 'dnavitski@gmail.com',[]).catch(console.error)
+main('prod_TLoR6Pvip9OLxU', 'dnavitski@gmail.com',[]).catch(console.error)
+
