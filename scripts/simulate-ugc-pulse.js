@@ -32,6 +32,6 @@ const myTG = 5533843441;
 //main('prod_TravelStream2', 'dnavitski@gmail.com',[]).catch(console.error)
 // main('prod_Tw7UBkg0EBa9A0', 'pr.nadiacreates@gmail.com',[]).catch(console.error)
 
-main('prod_TLoPLmbyPJkGOK', 'dnavitski@gmail.com',[]).catch(console.error)
-main('prod_TLoR6Pvip9OLxU', 'dnavitski@gmail.com',[]).catch(console.error)
+//main('prod_TLoR6Pvip9OLxU', 'ri.dariiina@gmail.com',[]).catch(console.error)
+// main('prod_TLoR6Pvip9OLxU', 'rimmagudzik@gmail.com',[]).catch(console.error)
 
